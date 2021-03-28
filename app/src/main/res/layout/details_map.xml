@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundDetailNote"
+    tools:context=".DetailsMap">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_baseline_back"
+        app:tint="@color/black" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="60dp">
+
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_nav_details" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewAddPlaceToVisit"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_bottom_dialog_map"
+
+        android:visibility="gone">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_location_on_30" />
+
+        <TextView
+            android:id="@+id/namePlaceToVisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="11dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/nearby_place"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/addressPlaceToVisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="140dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/address" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addPlaceToVisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="10dp"
+            android:text="@string/add_place"
+            app:icon="@drawable/ic_baseline_add_24" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardChooseTripPlace"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_above="@id/bottom_navigation"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/background_bottom_dialog_map"
+
+        android:visibility="gone">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_location_on_30" />
+
+        <TextView
+            android:id="@+id/nameTripPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="37dp"
+            android:layout_marginTop="11dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/nearby_place"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/addressTripPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="140dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Address " />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/selectTripPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginEnd="10dp"
+            android:text="@string/select"
+            app:icon="@drawable/ic_baseline_add_24" />
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

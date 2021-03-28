@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "688547220393",
+    "firebase_url": "https://go4mytrip.firebaseio.com",
+    "project_id": "go4mytrip",
+    "storage_bucket": "go4mytrip.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688547220393:android:2a234721223d16ff4412b8",
+        "android_client_info": {
+          "package_name": "com.aleksandra.go4mytrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688547220393-pgou77khpfpc8r6ujkqf9v6q9a7vgfr3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aleksandra.go4mytrip",
+            "certificate_hash": "8e9d930bad93a6f5e7ad463f9bb3d46e629f050e"
+          }
+        },
+        {
+          "client_id": "688547220393-rsrjb6tprlg3om8c7h2k13p4582nhjeo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArWMsDRxVGOHsCFJ6IDnO96Dvr99lbpIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688547220393-rsrjb6tprlg3om8c7h2k13p4582nhjeo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
