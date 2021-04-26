@@ -182,8 +182,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         dateStart = dateStart.replace('.', '/');
         dateEnd = dateEnd.replace('.', '/');
 
-
-
         dateStartOnly = dateStart;
         dateStart = dateStart + " " + timeStart + ":00";
         dateEnd = dateEnd + " " + timeEnd + ":00"; // data zakończania wyjazdu
