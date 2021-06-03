@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,6 +94,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
     Date dateAndTimeDate;
     long dateAndTimeMillis;
     Calendar calendarS;
+    Button testBtn;
 
     @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -159,6 +161,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         counter = findViewById(R.id.counterDown);
         packingListBtn = findViewById(R.id.btn_packingList);
         shoppingListBtn = findViewById(R.id.btn_shoppingList);
+        testBtn = findViewById(R.id.btn_new_button);
         mapReference = FirebaseDatabase.getInstance().getReference("placesToVisit");
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -236,6 +239,13 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                 Intent intent = new Intent(DetailTrip.this, ShoppingList.class);
                 intent.putExtra("idTripToChange", tripId);
                 startActivity(intent);
+            }
+        });
+
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetailTrip.this, "You pressed new button", Toast.LENGTH_SHORT).show();
             }
         });
 
