@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.costestimate;
 
 public class CostEstimateModel {
     String Id;

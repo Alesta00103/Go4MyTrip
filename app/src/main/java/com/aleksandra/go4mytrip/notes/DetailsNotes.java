@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.notes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +22,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.aleksandra.go4mytrip.trips.DetailTrip;
+import com.aleksandra.go4mytrip.googlemap.DetailsMap;
+import com.aleksandra.go4mytrip.R;
+import com.aleksandra.go4mytrip.costestimate.CreateCostEstimate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;

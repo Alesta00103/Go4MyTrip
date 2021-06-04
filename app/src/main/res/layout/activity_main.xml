@@ -7,7 +7,7 @@
     android:background="@drawable/login_activity"
 
 
-    tools:context=".MainActivity">
+    tools:context=".login.MainActivity">
 
 
     <ProgressBar

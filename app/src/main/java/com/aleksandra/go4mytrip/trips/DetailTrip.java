@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.trips;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -30,6 +30,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aleksandra.go4mytrip.googlemap.DetailsMap;
+import com.aleksandra.go4mytrip.lists.PackingList;
+import com.aleksandra.go4mytrip.googlemap.PlaceAdapter;
+import com.aleksandra.go4mytrip.googlemap.PlaceListener;
+import com.aleksandra.go4mytrip.googlemap.PlaceModel;
+import com.aleksandra.go4mytrip.R;
+import com.aleksandra.go4mytrip.ReminderBroadcast;
+import com.aleksandra.go4mytrip.lists.ShoppingList;
+import com.aleksandra.go4mytrip.notes.DetailsNotes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,7 +48,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
