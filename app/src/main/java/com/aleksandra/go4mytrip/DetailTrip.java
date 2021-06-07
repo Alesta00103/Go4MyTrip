@@ -22,13 +22,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,8 +35,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,54 +45,100 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class DetailTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, PlaceListener {
+public class DetailTrip extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, PlaceListener {
+
     private TextView title;
+
     private TextView dateS;
+
     private TextView dateE;
+
     private ImageButton image;
+
     private int imageInt;
+
     private TextView counter;
+
     Button packingListBtn;
+
     Button shoppingListBtn;
+
     String dateStart;
+
     String dateStartOnly;
+
     String currentDateOnly;
+
     String dateEnd;
+
     String tripId;
+
     String timeStart, timeEnd;
+
     Date dateOfStartTrip;
+
     Date datee2end;
+
     Date datenow;
+
     ImageView addPlace;
+
     ImageView noPlaces;
+
     TextView noPlacesText;
+
     long end_millis;
+
     long timeMilli;
+
     long start_millis;
+
     ImageView backBtn;
+
     private static final String TAG = "DetailTrip";
+
     public static final int REQUEST_CODE_ADD_PLACE = 1;
+
     BottomNavigationView bottomNavigationView;
+
     DatabaseReference mapReference;
+
     DatabaseReference referenceTrips;
+
     FirebaseUser user;
+
     String uid;
+
     List<PlaceModel> placeList;
+
     RecyclerView recyclerView;
+
     private int placeClickedPosition = -1;
+
     int hour, minute;
+
     int hourFinal, minuteFinal;
+
     String currentDateString;
+
     String currentTimeString;
+
     String idOfClickedPlace;
+
     String dateAndTimeString;
+
     Date dateAndTimeDate;
+
     long dateAndTimeMillis;
+
     Calendar calendarS;
 
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +209,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         noPlaces = findViewById(R.id.noPlaces);
         noPlacesText = findViewById(R.id.noPlacesText);
 
-
         tripId = getIntent().getStringExtra("idTripToDetail");
         // idOfThisTrip.setText(tripId);
         title.setText(getIntent().getStringExtra("title"));
@@ -202,7 +243,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         datee2end = new Date();
         try {
             datee2end = sdf.parse(dateEnd);
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -238,7 +278,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -269,7 +308,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     noPlaces.setVisibility(View.GONE);
                     noPlacesText.setVisibility(View.GONE);
 
-
                     PlaceAdapter myAdapter = new PlaceAdapter(DetailTrip.this, placeList, DetailTrip.this);
                     recyclerView.setLayoutManager(new LinearLayoutManager(DetailTrip.this));
                     recyclerView.setHasFixedSize(true);
@@ -290,7 +328,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
     private void countDownTimer(final long total_millis) { // total_millis to czas do wyjazdu w ms
         // 1000- tick every 1 second
         CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
-//            long totall__millis = total_millis;
+            //            long totall__millis = total_millis;
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -310,8 +348,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 1, 0);
                     counter.setText(ss1);
-
-
                 } else if (days > 1) {
                     String s1 = "\ndays";
                     String s = days + s1;
@@ -320,7 +356,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 } else if (days == 0 && hours > 1) {
                     String s1 = "\nhours";
                     String s = hours + s1;
@@ -328,7 +363,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 } else if (days == 0 && hours == 1) {
                     String s1 = "\nhour";
                     String s = hours + s1;
@@ -336,7 +370,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 } else if (days == 0 && hours == 0 && minutes > 1) {
                     String s1 = "\nminutes";
                     String s = minutes + s1;
@@ -344,7 +377,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 } else if (days == 0 && hours == 0 && minutes == 1) {
                     String s1 = "\nminute";
                     String s = minutes + s1;
@@ -352,7 +384,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 } else if (days == 0 && hours == 0 && minutes == 0 && seconds > 0) {
                     String s1 = "\nseconds";
                     String s2 = "\nsecond";
@@ -366,9 +397,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     SpannableString ss1 = new SpannableString(s);
                     ss1.setSpan(new RelativeSizeSpan(1.5f), 0, 2, 0);
                     counter.setText(ss1);
-
                 }
-
             }
 
             @Override
@@ -387,7 +416,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                     counter.setGravity(Gravity.CENTER);
                     counter.layout(0, 0, 0, 0);
                 }
-
             }
         };
         cdt.start();
@@ -411,7 +439,8 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         hour = calendarS.get(Calendar.HOUR_OF_DAY);
         minute = calendarS.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(DetailTrip.this, R.style.TimePickerTheme, DetailTrip.this, hour, minute, true);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(DetailTrip.this, R.style.TimePickerTheme, DetailTrip.this, hour, minute,
+                true);
         timePickerDialog.show();
     }
 
@@ -420,25 +449,23 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         hourFinal = hourOfDay;
         minuteFinal = minute;
 
-
         //dateOfTripStart.setText(currentDateString + " " + hourFinal +":" + minuteFinal);
         currentTimeString = hourFinal + ":" + minuteFinal;
         updateItem();
     }
 
     private void updateItem() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Map<String, Object> setEditTime = new HashMap<>();
         setEditTime.put("date", currentDateString);
         setEditTime.put("time", currentTimeString);
-
 
         mapReference.child(uid).child(tripId).child(idOfClickedPlace).updateChildren(setEditTime);
         currentDateString = currentDateString.replace('.', '/');
         dateAndTimeString = currentDateString.trim() + " " + currentTimeString.trim() + ":00";
 
         //Toast.makeText(this, "Date: " + dateAndTimeString, Toast.LENGTH_SHORT).show();
-
 
         try {
             dateAndTimeDate = sdf.parse(dateAndTimeString.trim());
@@ -450,7 +477,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         assert dateAndTimeDate != null;
         dateAndTimeMillis = dateAndTimeDate.getTime();
 
-
         setReminder();
     }
 
@@ -461,7 +487,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
 
         DialogFragment dialogFragment = new com.aleksandra.go4mytrip.DatePicker();
         dialogFragment.show(getSupportFragmentManager(), "date picker");
-
     }
 
     @Override
@@ -470,7 +495,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         idOfClickedPlace = placeModel.getId();
 
         mapReference.child(uid).child(tripId).child(idOfClickedPlace).removeValue();
-
     }
 
     public void setReminder() {
@@ -478,8 +502,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         PendingIntent pendingIntent = PendingIntent.getBroadcast(DetailTrip.this, 0, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         long currentTimeInMillis = System.currentTimeMillis();
-        alarmManager.set(AlarmManager.RTC_WAKEUP, dateAndTimeMillis-3600000, pendingIntent); //dateAndTimeMillis - currentTimeInMillis
-
+        alarmManager.set(AlarmManager.RTC_WAKEUP, dateAndTimeMillis - 3600000, pendingIntent); //dateAndTimeMillis - currentTimeInMillis
     }
 
     private void createNotificationChannel() {
