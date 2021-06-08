@@ -22,6 +22,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -133,6 +135,7 @@ public class DetailTrip extends AppCompatActivity
     long dateAndTimeMillis;
 
     Calendar calendarS;
+    Button testBtn;
 
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -201,6 +204,7 @@ public class DetailTrip extends AppCompatActivity
         counter = findViewById(R.id.counterDown);
         packingListBtn = findViewById(R.id.btn_packingList);
         shoppingListBtn = findViewById(R.id.btn_shoppingList);
+        testBtn = findViewById(R.id.btn_new_button);
         mapReference = FirebaseDatabase.getInstance().getReference("placesToVisit");
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -278,6 +282,15 @@ public class DetailTrip extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetailTrip.this, "You pressed new button", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
