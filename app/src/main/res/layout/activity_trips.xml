@@ -30,7 +30,7 @@
                 android:layout_height="120dp"
                 android:background="@color/colorPrimaryDark"
                 android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"></ImageView>
+                android:scaleType="centerCrop" />
 
 
             <androidx.appcompat.widget.Toolbar
