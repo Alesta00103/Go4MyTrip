@@ -90,7 +90,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                                 tripList!!.add(trip)
                             }
                         }
-                        val myAdapter = RecyclerTripAdapter(this@Trips, tripList, this@Trips)
+                        val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
                         recyclerview_id.layoutManager = LinearLayoutManager(this@Trips)
                         recyclerview_id.setHasFixedSize(true)
                         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
@@ -237,7 +237,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                             noTripsText!!.visibility = View.GONE
                         }
                     }
-                    val myAdapter = RecyclerTripAdapter(this@Trips, tripList, this@Trips)
+                    val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
                     recyclerview_id!!.layoutManager = LinearLayoutManager(this@Trips)
                     recyclerview_id!!.setHasFixedSize(true)
                     ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
@@ -313,9 +313,9 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         }
     }
 
-    override fun onLongClicked(tripModel: TripModel, position: Int) {
+    override fun onLongClicked(tripModel: TripModel?, position: Int) {
         tripClickedPosition = position
-        val id = tripModel.tripId
+        val id = tripModel!!.tripId
         val title = tripModel.title
         val coordinate = tripModel.coordinate
         val tripDate = tripModel.tripDate
@@ -342,4 +342,6 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         const val REQUEST_CODE_UPDATE_TRIP = 2
         const val REQUEST_CODE_ADD_TRIP = 1
     }
+
+
 }
