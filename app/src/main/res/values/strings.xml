@@ -65,5 +65,6 @@
     <string name="add_place">Add</string>
     <string name="nearby_place">Nearby Place</string>
     <string name="select">Select</string>
+    <string name="no_trips">No trips</string>
 
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -57,9 +58,9 @@
                 android:textColor="@color/gray"
                 android:textColorHint="@color/hintTextSearch"
                 android:textSize="16sp"
-
                 app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="none" />
+                app:layout_collapseMode="none"
+                tools:ignore="RtlSymmetry" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -103,31 +104,6 @@
                 app:layout_anchor="@id/appBarLayout"
 
                 app:layout_collapseMode="pin" />
-            <!--<TextView
-                android:id="@+id/personEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="15dp"
-                app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="pin"
-                android:text="@string/example_gmail_com"
-                android:textColor="#BFB6B6"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/personData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name_and_surname"
-
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="100dp"
-                app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="pin"
-                android:textColor="@color/white"
-                android:textSize="14sp" />-->
 
             <ImageView
                 android:id="@+id/logout_google"
@@ -145,7 +121,6 @@
                 app:tint="@color/white" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -172,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="115dp"
-        android:text="No trips"
+        android:text="@string/no_trips"
         android:textSize="16sp"
         android:visibility="gone" />
 
@@ -184,7 +159,6 @@
         android:layout_margin="26dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:tint="@color/colorPrimaryDark"
-
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_baseline_add_24" />
