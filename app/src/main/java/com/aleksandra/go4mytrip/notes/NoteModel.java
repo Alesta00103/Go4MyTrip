@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.notes;
 
 public class NoteModel {
     String IdNote;

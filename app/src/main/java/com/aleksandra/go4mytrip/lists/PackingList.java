@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.lists;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +17,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
+import com.aleksandra.go4mytrip.R;
 import com.aleksandra.go4mytrip.ui.main.SectionsPagerAdapter;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

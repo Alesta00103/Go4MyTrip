@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.googlemap;
 
 import android.Manifest;
 import android.content.Intent;
@@ -21,6 +21,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.aleksandra.go4mytrip.R;
+import com.aleksandra.go4mytrip.notes.DetailsNotes;
+import com.aleksandra.go4mytrip.trips.AddNewTrip;
+import com.aleksandra.go4mytrip.trips.DetailTrip;
+import com.aleksandra.go4mytrip.trips.TripModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
