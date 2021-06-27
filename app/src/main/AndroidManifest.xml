@@ -19,11 +19,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApp"
         tools:targetApi="q">
-        <activity android:name=".ShoppingList"
+        <activity
+            android:name=".ShoppingList"
             android:configChanges="orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -95,7 +96,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".ReminderBroadcast"/>
+
+        <receiver android:name=".ReminderBroadcast" />
     </application>
 
 </manifest>

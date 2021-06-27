@@ -23,19 +23,17 @@ class MainActivity : AppCompatActivity() {
     private var photo: String? = null
     private var personEmail: String? = null
     private var personName: String? = null
-    var uid: String? = null
+    private lateinit var uid: String
 
-    var databaseReference: DatabaseReference? = null
+    lateinit var databaseReference: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         databaseReference = FirebaseDatabase.getInstance().getReference("users")
 
         mAuth = FirebaseAuth.getInstance()
-        if (mAuth.currentUser != null) {
-            val intent = Intent(this@MainActivity, Trips::class.java)
-            startActivity(intent)
-        }
+        mAuth.currentUser?.let { startActivity(Intent(this@MainActivity, Trips::class.java)) }
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -46,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
-        progress_bar!!.visibility = View.VISIBLE
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -61,62 +58,65 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
-            val acc = completedTask.getResult(ApiException::class.java)!!
-            Toast.makeText(this@MainActivity, "Signed In Successfully", Toast.LENGTH_SHORT).show()
+            val acc = completedTask.getResult(ApiException::class.java)
+            Toast.makeText(this@MainActivity, getString(R.string.successfully), Toast.LENGTH_SHORT).show()
+            progress_bar.visibility = View.VISIBLE
             firebaseGoogleAuth(acc)
         } catch (e: ApiException) {
-            Toast.makeText(this@MainActivity, "Signed In Failed", Toast.LENGTH_SHORT).show()
-            firebaseGoogleAuth(null)
+
         }
     }
 
     private fun firebaseGoogleAuth(acct: GoogleSignInAccount?) {
-        val authCredential = GoogleAuthProvider.getCredential(acct!!.idToken, null)
+        val authCredential = GoogleAuthProvider.getCredential(acct?.idToken, null)
         mAuth.signInWithCredential(authCredential).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                progress_bar!!.visibility = View.INVISIBLE
+                progress_bar.visibility = View.INVISIBLE
                 updateUI()
             } else {
-                progress_bar!!.visibility = View.INVISIBLE
+                progress_bar.visibility = View.INVISIBLE
                 updateUI()
             }
-            val intentLog = Intent(this@MainActivity, Trips::class.java)
-            startActivity(intentLog)
+            startActivity(Intent(this@MainActivity, Trips::class.java))
         }
     }
 
     private fun updateUI() {
         val account = GoogleSignIn.getLastSignedInAccount(applicationContext)
-        if (account != null) {
+
+        account?.let {
             personName = account.displayName
             personEmail = account.email
             photo = account.photoUrl.toString()
             val firebaseUser = FirebaseAuth.getInstance().currentUser
-            uid = firebaseUser!!.uid
+            firebaseUser?.let {
+                uid = it.uid
+            }
             addUser()
-        } else {
-            login_in_google!!.visibility = View.VISIBLE
+        } ?: run {
+            login_in_google.visibility = View.VISIBLE
         }
     }
 
     private fun addUser() {
-        databaseReference!!.child(uid!!).addListenerForSingleValueEvent(object : ValueEventListener {
+        databaseReference.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (!snapshot.exists()) {
                     val name = personName
                     val email = personEmail
                     val imageUri = photo
-                    val id = databaseReference!!.push().key
-                    val userr = User(id, name, email, imageUri)
-                    databaseReference!!.child(uid!!).setValue(userr)
-                    Toast.makeText(this@MainActivity, "added user", Toast.LENGTH_SHORT).show()
+                    val id = databaseReference.push().key
+                    val user = User(id, name, email, imageUri)
+                    databaseReference.child(uid).setValue(user)
+                    Toast.makeText(this@MainActivity, getString(R.string.userAdded), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {}
         })
     }
-    companion object{
+
+    companion object {
         private const val RC_SIGN_IN = 1
     }
 }
