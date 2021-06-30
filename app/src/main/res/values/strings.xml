@@ -66,5 +66,16 @@
     <string name="nearby_place">Nearby Place</string>
     <string name="select">Select</string>
     <string name="no_trips">No trips</string>
+    <string name="DuringTheTrip">"During\nThe\nTrip"</string>
+    <string name="AfterTrip">"After\nTrip"</string>
+    <string name="_day">\nday</string>
+    <string name="_days">\ndays</string>
+    <string name="_hour">\nhour</string>
+    <string name="_hours">\nhours</string>
+    <string name="_minute">\nminute</string>
+    <string name="_minutes">\nminutes</string>
+    <string name="_second">\nsecond</string>
+    <string name="_seconds">\nseconds</string>
+
 
 </resources>

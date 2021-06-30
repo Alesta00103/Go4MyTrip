@@ -29,27 +29,27 @@ import kotlinx.android.synthetic.main.activity_trips.*
 import java.util.*
 
 class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListener {
-    var image2: ImageView? = null
-    var email: String? = null
-    var uriPhoto: String? = null
-    var userName: String? = null
-    var tripList: MutableList<TripModel?>? = null
+    private var image2: ImageView? = null
+    private var email: String? = null
+    private var uriPhoto: String? = null
+    private var userName: String? = null
+    private var tripList: MutableList<TripModel?>? = null
     private var costEstimatesList: List<CostEstimateModel>? = null
     private var noteList: List<NoteModel>? = null
     private var packingLists: List<PackingModel>? = null
-    lateinit var referenceTrips: DatabaseReference
+    private lateinit var referenceTrips: DatabaseReference
     private lateinit var referenceUser: DatabaseReference
-    lateinit var referencePackingList: DatabaseReference
-    lateinit var referenceExpenses: DatabaseReference
-    lateinit var referenceNotes: DatabaseReference
-    lateinit var referencePlaces: DatabaseReference
-    var user: FirebaseUser? = null
-    var uid: String? = null
+    private lateinit var referencePackingList: DatabaseReference
+    private lateinit var referenceExpenses: DatabaseReference
+    private lateinit var referenceNotes: DatabaseReference
+    private lateinit var referencePlaces: DatabaseReference
+    private lateinit var user: FirebaseUser
+    private lateinit var uid: String
     private var nameOfTrip: String? = null
     private var imageUriOfTrip = 0
     private var dateStart: String? = null
     private var dateEnd: String? = null
-    var deletedTrip: TripModel? = null
+    private var deletedTrip: TripModel? = null
     private var tripClickedPosition = -1
     private var images = intArrayOf(R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7,
             R.drawable.img8, R.drawable.img9, R.drawable.img10, R.drawable.img11, R.drawable.img12, R.drawable.img13, R.drawable.img14,
@@ -68,9 +68,9 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         costEstimatesList = ArrayList()
         noteList = ArrayList()
         packingLists = ArrayList()
-        user = FirebaseAuth.getInstance().currentUser
+        user = FirebaseAuth.getInstance().currentUser!!
 
-        uid = user!!.uid
+        uid = user.uid
         referenceTrips = FirebaseDatabase.getInstance().getReference("trips")
         referenceUser = FirebaseDatabase.getInstance().getReference("users")
         referencePackingList = FirebaseDatabase.getInstance().getReference("packingList")
@@ -81,7 +81,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         inputSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                referenceTrips.child(uid!!).addValueEventListener(object : ValueEventListener {
+                referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         tripList!!.clear()
                         for (tripSnapshot in dataSnapshot.children) {
@@ -108,7 +108,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             startActivityForResult(
                     Intent(applicationContext, AddNewTrip::class.java), REQUEST_CODE_ADD_TRIP)
         }
-        referenceTrips.child(uid!!).addValueEventListener(object : ValueEventListener {
+        referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tripList!!.clear()
                 for (tripSnapshot in dataSnapshot.children) {
@@ -150,7 +150,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 if (nameOfTrip != null && imageUriOfTrip != 0 && dateStart != null && dateEnd != null) {
                     val trip = TripModel(id, nameOfTrip, namePlace, coordinate, imageUriOfTrip, dateStart, dateEnd, timeStart, timeEnd)
                     //assert(id != null)
-                    referenceTrips.child(uid!!).child(id!!).setValue(trip)
+                    referenceTrips.child(uid).child(id!!).setValue(trip)
                     Toast.makeText(this, "Trip added", Toast.LENGTH_SHORT).show()
                     clearTripCard()
                 } else {
@@ -185,7 +185,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 editItem["timeStart"] = timeStart
                 editItem["timeEnd"] = timeEnd
 
-                referenceTrips.child(uid!!).child(id!!).updateChildren(editItem)
+                referenceTrips.child(uid).child(id!!).updateChildren(editItem)
             }
         }
     }
@@ -211,7 +211,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 .build()
         mGoogleApiClient.connect()
         super.onStart()
-        referenceUser.child(uid!!).addValueEventListener(object : ValueEventListener {
+        referenceUser.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
                 if (user != null) {
@@ -224,7 +224,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
 
             override fun onCancelled(error: DatabaseError) {}
         })
-        referenceTrips.child(uid!!).addValueEventListener(object : ValueEventListener {
+        referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tripList!!.clear()
                 if (dataSnapshot.exists()) {
@@ -232,18 +232,18 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                         val trip = tripSnapshot.getValue(TripModel::class.java)
                         tripList!!.add(trip)
                         if (tripList!!.size > 0) {
-                            recyclerview_id!!.visibility = View.VISIBLE
+                            recyclerview_id.visibility = View.VISIBLE
                             noTrips!!.visibility = View.GONE
                             noTripsText!!.visibility = View.GONE
                         }
                     }
                     val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
-                    recyclerview_id!!.layoutManager = LinearLayoutManager(this@Trips)
-                    recyclerview_id!!.setHasFixedSize(true)
+                    recyclerview_id.layoutManager = LinearLayoutManager(this@Trips)
+                    recyclerview_id.setHasFixedSize(true)
                     ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
-                    recyclerview_id!!.adapter = myAdapter
+                    recyclerview_id.adapter = myAdapter
                 } else {
-                    recyclerview_id!!.visibility = View.GONE
+                    recyclerview_id.visibility = View.GONE
                     noTrips!!.visibility = View.VISIBLE
                     noTripsText!!.visibility = View.VISIBLE
                 }
@@ -283,18 +283,18 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             val trip = tripList!![position]
             deletedTrip = trip
             val id = trip!!.tripId
-            referenceTrips.child(uid!!).child(id!!).removeValue()
-            Snackbar.make(recyclerview_id!!, "Deleted trip " + deletedTrip!!.title, Snackbar.LENGTH_LONG)
-                    .setAction("Undo") { referenceTrips.child(uid!!).child(id).setValue(deletedTrip) }.show()
+            referenceTrips.child(uid).child(id!!).removeValue()
+            Snackbar.make(recyclerview_id, "Deleted trip " + deletedTrip!!.title, Snackbar.LENGTH_LONG)
+                    .setAction("Undo") { referenceTrips.child(uid).child(id).setValue(deletedTrip) }.show()
             val handler = Handler()
             handler.postDelayed({
-                referenceTrips.child(uid!!).child(id).addListenerForSingleValueEvent(object : ValueEventListener {
+                referenceTrips.child(uid).child(id).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (!snapshot.exists()) {
-                            referenceExpenses.child(uid!!).child(id).removeValue()
-                            referenceNotes.child(uid!!).child(id).removeValue()
-                            referencePackingList.child(uid!!).child("trips").child(id).removeValue()
-                            referencePlaces.child(uid!!).child(id).removeValue()
+                            referenceExpenses.child(uid).child(id).removeValue()
+                            referenceNotes.child(uid).child(id).removeValue()
+                            referencePackingList.child(uid).child("trips").child(id).removeValue()
+                            referencePlaces.child(uid).child(id).removeValue()
                         }
                     }
 
