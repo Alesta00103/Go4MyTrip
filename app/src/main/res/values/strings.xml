@@ -76,6 +76,9 @@
     <string name="_minutes">\nminutes</string>
     <string name="_second">\nsecond</string>
     <string name="_seconds">\nseconds</string>
+    <string name="permissionDenied">Permission Denied!</string>
+    <string name="addedLocation">"Added location"</string>
+
 
 
 </resources>

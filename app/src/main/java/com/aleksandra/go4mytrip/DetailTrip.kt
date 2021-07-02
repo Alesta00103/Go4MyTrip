@@ -186,10 +186,6 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
         tripId = intent.getStringExtra("idTripToDetail").toString()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
     override fun onStart() {
         super.onStart()
         mapReference.child(uid).child(tripId).addValueEventListener(object : ValueEventListener {

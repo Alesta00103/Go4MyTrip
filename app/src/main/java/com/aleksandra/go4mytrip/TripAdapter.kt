@@ -9,7 +9,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TripAdapter(private val context: Context, private val mData: MutableList<TripModel?>?, private val tripsListener: TripsListener) : RecyclerView.Adapter<TripAdapter.MyViewHolder>() {
+class TripAdapter(private val context: Context, private val mData: MutableList<TripModel>?, private val tripsListener: TripsListener) : RecyclerView.Adapter<TripAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View
         val mInflater = LayoutInflater.from(context)

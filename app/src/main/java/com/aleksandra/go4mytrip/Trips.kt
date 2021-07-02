@@ -33,10 +33,16 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
     private var email: String? = null
     private var uriPhoto: String? = null
     private var userName: String? = null
-    private var tripList: MutableList<TripModel?>? = null
-    private var costEstimatesList: List<CostEstimateModel>? = null
-    private var noteList: List<NoteModel>? = null
-    private var packingLists: List<PackingModel>? = null
+
+    private lateinit var namePlace: String
+    private lateinit var coordinate: String
+    private var timeStart: String? = null
+    private var timeEnd: String? = null
+
+    private lateinit var tripList: MutableList<TripModel>
+    private lateinit var costEstimatesList: List<CostEstimateModel>
+    private lateinit var noteList: List<NoteModel>
+    private lateinit var packingLists: List<PackingModel>
     private lateinit var referenceTrips: DatabaseReference
     private lateinit var referenceUser: DatabaseReference
     private lateinit var referencePackingList: DatabaseReference
@@ -49,7 +55,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
     private var imageUriOfTrip = 0
     private var dateStart: String? = null
     private var dateEnd: String? = null
-    private var deletedTrip: TripModel? = null
+    private lateinit var deletedTrip: TripModel
     private var tripClickedPosition = -1
     private var images = intArrayOf(R.drawable.img1, R.drawable.img2, R.drawable.img3, R.drawable.img4, R.drawable.img5, R.drawable.img6, R.drawable.img7,
             R.drawable.img8, R.drawable.img9, R.drawable.img10, R.drawable.img11, R.drawable.img12, R.drawable.img13, R.drawable.img14,
@@ -83,11 +89,14 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        tripList!!.clear()
+                        tripList.clear()
                         for (tripSnapshot in dataSnapshot.children) {
                             val trip = tripSnapshot.getValue(TripModel::class.java)
-                            if (trip!!.title!!.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
-                                tripList!!.add(trip)
+                            trip?.let {
+
+                                if (it.title!!.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
+                                    tripList.add(it)
+                                }
                             }
                         }
                         val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
@@ -95,7 +104,6 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                         recyclerview_id.setHasFixedSize(true)
                         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
                         recyclerview_id.adapter = myAdapter
-
                     }
 
                     override fun onCancelled(error: DatabaseError) {}
@@ -110,11 +118,13 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         }
         referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tripList!!.clear()
+                tripList.clear()
                 for (tripSnapshot in dataSnapshot.children) {
                     val trip = tripSnapshot.getValue(TripModel::class.java)
-                    tripList!!.add(trip)
-                    if (tripList!!.size == 0) {
+                    trip?.let{
+                        tripList.add(trip)
+                    }
+                    if (tripList.size == 0) {
                         recyclerview_id.visibility = View.GONE
                         noTrips.visibility = View.VISIBLE
                         noTripsText.visibility = View.VISIBLE
@@ -130,27 +140,33 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_ADD_TRIP) {
             if (resultCode == RESULT_OK) {
-                nameOfTrip = data!!.getStringExtra("nameTrip")
-                dateStart = data.getStringExtra("date")
-                val namePlace = data.getStringExtra("namePlace")
-                val coordinate = data.getStringExtra("coordinates")
-                val timeStart: String? = if (data.getStringExtra("timeStart") != null) {
-                    data.getStringExtra("timeStart")
-                } else {
-                    "00:00:00"
+
+                data?.let {
+
+                    nameOfTrip = it.getStringExtra("nameTrip")
+                    dateStart = it.getStringExtra("date")
+                    namePlace = it.getStringExtra("namePlace").toString()
+                    coordinate = it.getStringExtra("coordinates").toString()
+                    timeStart= if (it.getStringExtra("timeStart") != null) {
+                        it.getStringExtra("timeStart")
+                    } else {
+                        "00:00:00"
+                    }
+
+                    timeEnd = if (it.getStringExtra("timeEnd") != null) {
+                        it.getStringExtra("timeEnd")
+                    } else {
+                        "00:00:00"
+                    }
+                    dateEnd = it.getStringExtra("endDate")
                 }
-                val timeEnd: String? = if (data.getStringExtra("timeEnd") != null) {
-                    data.getStringExtra("timeEnd")
-                } else {
-                    "00:00:00"
-                }
-                dateEnd = data.getStringExtra("endDate")
+
                 imageUriOfTrip = randomImage()
                 val id = referenceTrips.push().key
-                if (nameOfTrip != null && imageUriOfTrip != 0 && dateStart != null && dateEnd != null) {
+                if (imageUriOfTrip != 0 && dateStart != null && dateEnd != null) {
                     val trip = TripModel(id, nameOfTrip, namePlace, coordinate, imageUriOfTrip, dateStart, dateEnd, timeStart, timeEnd)
-                    //assert(id != null)
-                    referenceTrips.child(uid).child(id!!).setValue(trip)
+
+                    id?.let { referenceTrips.child(uid).child(it).setValue(trip) }
                     Toast.makeText(this, "Trip added", Toast.LENGTH_SHORT).show()
                     clearTripCard()
                 } else {
@@ -160,22 +176,24 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             }
         } else if (requestCode == REQUEST_CODE_UPDATE_TRIP) {
             if (resultCode == RESULT_OK) {
-                val id = data!!.getStringExtra("id")
-                nameOfTrip = data.getStringExtra("nameTrip")
-                dateStart = data.getStringExtra("date")
-                val namePlace = data.getStringExtra("namePlace")
-                val coordinate = data.getStringExtra("coordinates")
-                val timeStart: String? = if (data.getStringExtra("timeStart") != null) {
-                    data.getStringExtra("timeStart")
+                data?.let {
+
+                val id = it.getStringExtra("id")
+                nameOfTrip = it.getStringExtra("nameTrip").toString()
+                dateStart = it.getStringExtra("date")
+                val namePlace = it.getStringExtra("namePlace")
+                val coordinate = it.getStringExtra("coordinates")
+                val timeStart: String? = if (it.getStringExtra("timeStart") != null) {
+                    it.getStringExtra("timeStart")
                 } else {
                     "00:00:00"
                 }
-                val timeEnd: String? = if (data.getStringExtra("timeEnd") != null) {
-                    data.getStringExtra("timeEnd")
+                val timeEnd: String? = if (it.getStringExtra("timeEnd") != null) {
+                    it.getStringExtra("timeEnd")
                 } else {
                     "00:00:00"
                 }
-                dateEnd = data.getStringExtra("endDate")
+                dateEnd = it.getStringExtra("endDate")
                 val editItem: MutableMap<String, Any?> = HashMap()
                 editItem["title"] = nameOfTrip
                 editItem["tripDate"] = dateStart
@@ -185,7 +203,8 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 editItem["timeStart"] = timeStart
                 editItem["timeEnd"] = timeEnd
 
-                referenceTrips.child(uid).child(id!!).updateChildren(editItem)
+                    id?.let { it1 -> referenceTrips.child(uid).child(it1).updateChildren(editItem) }
+                }
             }
         }
     }
@@ -214,10 +233,10 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         referenceUser.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val user = snapshot.getValue(User::class.java)
-                if (user != null) {
-                    email = user.email
-                    userName = user.name
-                    uriPhoto = user.imageUser
+                user?.let {
+                    email = it.email
+                    userName = it.name
+                    uriPhoto = it.imageUser
                     Picasso.get().load(uriPhoto).into(image2)
                 }
             }
@@ -226,15 +245,17 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         })
         referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                tripList!!.clear()
+                tripList.clear()
                 if (dataSnapshot.exists()) {
                     for (tripSnapshot in dataSnapshot.children) {
                         val trip = tripSnapshot.getValue(TripModel::class.java)
-                        tripList!!.add(trip)
-                        if (tripList!!.size > 0) {
+                        trip?.let{
+                            tripList.add(it)
+                        }
+                        if (tripList.size > 0) {
                             recyclerview_id.visibility = View.VISIBLE
-                            noTrips!!.visibility = View.GONE
-                            noTripsText!!.visibility = View.GONE
+                            noTrips.visibility = View.GONE
+                            noTripsText.visibility = View.GONE
                         }
                     }
                     val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
@@ -244,8 +265,8 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                     recyclerview_id.adapter = myAdapter
                 } else {
                     recyclerview_id.visibility = View.GONE
-                    noTrips!!.visibility = View.VISIBLE
-                    noTripsText!!.visibility = View.VISIBLE
+                    noTrips.visibility = View.VISIBLE
+                    noTripsText.visibility = View.VISIBLE
                 }
             }
 
@@ -253,8 +274,8 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         })
     }
 
-    fun showPopup(v: View?) {
-        val popupMenu = PopupMenu(this, v!!)
+    fun showPopup(v: View) {
+        val popupMenu = PopupMenu(this, v)
         popupMenu.setOnMenuItemClickListener(this)
         popupMenu.inflate(R.menu.popup_menu)
         popupMenu.show()
@@ -280,27 +301,33 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            val trip = tripList!![position]
+            val trip = tripList[position]
             deletedTrip = trip
-            val id = trip!!.tripId
-            referenceTrips.child(uid).child(id!!).removeValue()
-            Snackbar.make(recyclerview_id, "Deleted trip " + deletedTrip!!.title, Snackbar.LENGTH_LONG)
-                    .setAction("Undo") { referenceTrips.child(uid).child(id).setValue(deletedTrip) }.show()
-            val handler = Handler()
-            handler.postDelayed({
-                referenceTrips.child(uid).child(id).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (!snapshot.exists()) {
-                            referenceExpenses.child(uid).child(id).removeValue()
-                            referenceNotes.child(uid).child(id).removeValue()
-                            referencePackingList.child(uid).child("trips").child(id).removeValue()
-                            referencePlaces.child(uid).child(id).removeValue()
-                        }
-                    }
+            val id = trip.tripId
 
-                    override fun onCancelled(error: DatabaseError) {}
-                })
-            }, 8000) //8 seconds
+            id?.let{
+                referenceTrips.child(uid).child(it).removeValue()
+                Snackbar.make(recyclerview_id, "Deleted trip " + deletedTrip.title, Snackbar.LENGTH_LONG)
+                        .setAction("Undo") { referenceTrips.child(uid).child(id).setValue(deletedTrip) }.show()
+                val handler = Handler()
+                handler.postDelayed({
+                    referenceTrips.child(uid).child(it).addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (!snapshot.exists()) {
+                                referenceExpenses.child(uid).child(it).removeValue()
+                                referenceNotes.child(uid).child(it).removeValue()
+                                referencePackingList.child(uid).child("trips").child(it).removeValue()
+                                referencePlaces.child(uid).child(it).removeValue()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+                }, 8000) //8 seconds
+            }
+
+
+
         }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -315,15 +342,27 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
 
     override fun onLongClicked(tripModel: TripModel?, position: Int) {
         tripClickedPosition = position
-        val id = tripModel!!.tripId
-        val title = tripModel.title
-        val coordinate = tripModel.coordinate
-        val tripDate = tripModel.tripDate
-        val timeStart = tripModel.timeStart
-        val timeEnd = tripModel.timeEnd
-        val image = tripModel.imageTrip
-        val tripDateEnd = tripModel.tripDateEnd
-        val namePlace = tripModel.namePlace
+        var id:String?= null
+        var title: String? = null
+        var coordinate: String? = null
+        var tripDate: String? = null
+        var timeStart :String? = null
+        var timeEnd :String? = null
+        var image = 0
+        var tripDateEnd :String? = null
+        var namePlace :String? = null
+
+        tripModel?.let {
+            id = it.tripId
+            title = it.title
+            coordinate = it.coordinate.toString()
+            tripDate = it.tripDate
+            timeStart = it.timeStart.toString()
+            timeEnd = it.timeEnd.toString()
+            image = it.imageTrip
+            tripDateEnd = it.tripDateEnd.toString()
+            namePlace = it.namePlace.toString()
+        }
         val intent = Intent(this@Trips, AddNewTrip::class.java)
         intent.putExtra("isViewOrUpdate", true)
         intent.putExtra("id", id)

@@ -34,9 +34,9 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
     private var layoutAddImage: LinearLayout? = null
     private var timeS: String? = null
     private var timeE: String? = null
-     var id: String? = null
-    private var alreadyAvailableTrip: TripModel? = null
-    var image = 0
+    private var id: String? = null
+    private lateinit var alreadyAvailableTrip: TripModel
+    private var image = 0
     private lateinit var calendarS: Calendar
     private lateinit var calendarE: Calendar
     private var isDataStart = false
@@ -97,8 +97,8 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         saveTrip.setOnClickListener {
             val sendTripInfoIntent = Intent()
             val name = editTripName.text.toString().trim { it <= ' ' }
-            if (alreadyAvailableTrip != null) {
-                id = alreadyAvailableTrip!!.tripId
+            alreadyAvailableTrip.let {
+                id = it.tripId
                 sendTripInfoIntent.putExtra("id", id)
             }
             sendTripInfoIntent.putExtra("nameTrip", name)
@@ -115,37 +115,34 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     @SuppressLint("SetTextI18n")
     private fun setViewOrUpdateTrip() {
-        tripName!!.setText(alreadyAvailableTrip!!.title)
-        placeName!!.text = alreadyAvailableTrip!!.namePlace
-        dateOfTripStart!!.text = alreadyAvailableTrip!!.tripDate + " " + alreadyAvailableTrip!!.timeStart
-        dateS = alreadyAvailableTrip!!.tripDate
-        endDate!!.text = alreadyAvailableTrip!!.tripDateEnd + " " + alreadyAvailableTrip!!.timeEnd
-        dateE = alreadyAvailableTrip!!.tripDateEnd
-        coordinates = alreadyAvailableTrip!!.coordinate
-        // dateOfTripEnd = alreadyAvailableTrip.getTripDateEnd();
+        tripName!!.setText(alreadyAvailableTrip.title)
+        placeName!!.text = alreadyAvailableTrip.namePlace
+        dateOfTripStart!!.text = alreadyAvailableTrip.tripDate + " " + alreadyAvailableTrip.timeStart
+        dateS = alreadyAvailableTrip.tripDate
+        endDate!!.text = alreadyAvailableTrip.tripDateEnd + " " + alreadyAvailableTrip.timeEnd
+        dateE = alreadyAvailableTrip.tripDateEnd
+        coordinates = alreadyAvailableTrip.coordinate
         placeNameText = placeName!!.text.toString().trim { it <= ' ' }
-        timeS = alreadyAvailableTrip!!.timeStart
-        timeE = alreadyAvailableTrip!!.timeEnd
+        timeS = alreadyAvailableTrip.timeStart
+        timeE = alreadyAvailableTrip.timeEnd
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_ADD_NAME_PLACE) {
             if (resultCode == RESULT_OK) {
-                //assert(data != null)
-                placeNameText = data!!.getStringExtra("nameCountry")
-                placeName!!.text = placeNameText
-                coordinates = data.getStringExtra("coordinate")
-                Toast.makeText(this, "Added location", Toast.LENGTH_SHORT).show()
+                data?.let{placeNameText = it.getStringExtra("nameCountry")
+                    placeName!!.text = placeNameText
+                    coordinates = it.getStringExtra("coordinate")
+                    Toast.makeText(this, getString(R.string.addedLocation), Toast.LENGTH_SHORT).show()}
+
             }
         }
     }
 
     private fun selectImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE)
-        }
+        intent.resolveActivity(packageManager)?.let { startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE) }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -154,7 +151,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 selectImage()
             } else {
-                Toast.makeText(this, "Permission Denied!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permissionDenied), Toast.LENGTH_SHORT).show()
             }
         }
     }
