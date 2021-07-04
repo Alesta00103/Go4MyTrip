@@ -18,32 +18,35 @@ class TripAdapter(private val context: Context, private val mData: MutableList<T
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.textViewTitle.text = mData!![position]!!.title
-        holder.imgTrip.setImageResource(mData[position]!!.imageTrip)
-        holder.dateStart.text = mData[position]!!.tripDate
-        holder.dateEnd.text = mData[position]!!.tripDateEnd
-        holder.imgTrip.setOnClickListener {
-            val id = mData[position]!!.tripId
-            val title = mData[position]!!.title
-            val image = mData[position]!!.imageTrip
-            val dateS = mData[position]!!.tripDate
-            val dateE = mData[position]!!.tripDateEnd
-            val timeStart = mData[position]!!.timeStart
-            val timeEnd = mData[position]!!.timeEnd
-            val intent = Intent(context, DetailTrip::class.java)
-            intent.putExtra("idTripToDetail", id)
-            intent.putExtra("title", title)
-            intent.putExtra("image", image)
-            intent.putExtra("dateS", dateS)
-            intent.putExtra("dateE", dateE)
-            intent.putExtra("timeStart", timeStart)
-            intent.putExtra("timeEnd", timeEnd)
-            context.startActivity(intent)
+        mData?.let{
+            holder.textViewTitle.text = mData[position].title
+            holder.imgTrip.setImageResource(mData[position].imageTrip)
+            holder.dateStart.text = mData[position].tripDate
+            holder.dateEnd.text = mData[position].tripDateEnd
+            holder.imgTrip.setOnClickListener {
+                val id = mData[position].tripId
+                val title = mData[position].title
+                val image = mData[position].imageTrip
+                val dateS = mData[position].tripDate
+                val dateE = mData[position].tripDateEnd
+                val timeStart = mData[position].timeStart
+                val timeEnd = mData[position].timeEnd
+                val intent = Intent(context, DetailTrip::class.java)
+                intent.putExtra("idTripToDetail", id)
+                intent.putExtra("title", title)
+                intent.putExtra("image", image)
+                intent.putExtra("dateS", dateS)
+                intent.putExtra("dateE", dateE)
+                intent.putExtra("timeStart", timeStart)
+                intent.putExtra("timeEnd", timeEnd)
+                context.startActivity(intent)
+            }
+            holder.imgTrip.setOnLongClickListener {
+                tripsListener.onLongClicked(mData[position], position)
+                true
+            }
         }
-        holder.imgTrip.setOnLongClickListener {
-            tripsListener.onLongClicked(mData[position], position)
-            true
-        }
+
     }
 
     override fun getItemCount(): Int {

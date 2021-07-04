@@ -16,26 +16,19 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
-    private var tripName: EditText? = null
-    private var addNewTripBtn: ImageView? = null
-    private var imageBack: ImageView? = null
-    private var setDateStart: Button? = null
-    private var setDateEnd: Button? = null
-    private var endDate: TextView? = null
-    private var addNewPlace: Button? = null
-    private var dateOfTripStart: TextView? = null
+    private lateinit var imageBack: ImageView
+    private lateinit var endDate: TextView
     private lateinit var currentDateString: String
     private lateinit var endDateString: String
     private var dateS: String? = null
     private var dateE: String? = null
-    private var placeName: TextView? = null
     private var coordinates: String? = null
     private var placeNameText: String? = null
     private var layoutAddImage: LinearLayout? = null
     private var timeS: String? = null
     private var timeE: String? = null
     private var id: String? = null
-    private lateinit var alreadyAvailableTrip: TripModel
+    private var alreadyAvailableTrip: TripModel? = null
     private var image = 0
     private lateinit var calendarS: Calendar
     private lateinit var calendarE: Calendar
@@ -54,16 +47,10 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_trip)
-        tripName = findViewById(R.id.editTripName)
-        addNewTripBtn = findViewById(R.id.saveTrip)
-        setDateStart = findViewById(R.id.setDateTimeStart)
-        setDateEnd = findViewById(R.id.setTimeStart)
         endDate = findViewById(R.id.timeStart)
-        dateOfTripStart = findViewById(R.id.dataTimeStart)
-        addNewPlace = findViewById(R.id.setPlace)
-        placeName = findViewById(R.id.placeName)
         layoutAddImage = findViewById(R.id.layoutAddImage)
         imageBack = findViewById(R.id.backBtn)
+
         backBtn.setOnClickListener { onBackPressed() }
         if (intent.getBooleanExtra("isViewOrUpdate", false)) {
             id = intent.getStringExtra("id")
@@ -79,6 +66,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
             alreadyAvailableTrip = tripModel
             setViewOrUpdateTrip()
         }
+
         setPlace.setOnClickListener {
             val intent = Intent(this@AddNewTrip, DetailsMap::class.java)
             intent.putExtra("setOnlyPlace", true)
@@ -97,7 +85,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         saveTrip.setOnClickListener {
             val sendTripInfoIntent = Intent()
             val name = editTripName.text.toString().trim { it <= ' ' }
-            alreadyAvailableTrip.let {
+            alreadyAvailableTrip?.let {
                 id = it.tripId
                 sendTripInfoIntent.putExtra("id", id)
             }
@@ -115,16 +103,19 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     @SuppressLint("SetTextI18n")
     private fun setViewOrUpdateTrip() {
-        tripName!!.setText(alreadyAvailableTrip.title)
-        placeName!!.text = alreadyAvailableTrip.namePlace
-        dateOfTripStart!!.text = alreadyAvailableTrip.tripDate + " " + alreadyAvailableTrip.timeStart
-        dateS = alreadyAvailableTrip.tripDate
-        endDate!!.text = alreadyAvailableTrip.tripDateEnd + " " + alreadyAvailableTrip.timeEnd
-        dateE = alreadyAvailableTrip.tripDateEnd
-        coordinates = alreadyAvailableTrip.coordinate
-        placeNameText = placeName!!.text.toString().trim { it <= ' ' }
-        timeS = alreadyAvailableTrip.timeStart
-        timeE = alreadyAvailableTrip.timeEnd
+        alreadyAvailableTrip?.let {
+            editTripName.setText(it.title)
+            placeName.text = it.namePlace
+            dataTimeStart.text = "${it.tripDate} ${it.timeStart}"
+            dateS = it.tripDate
+            endDate.text = "${it.tripDateEnd} ${it.timeEnd}"
+            dateE = it.tripDateEnd
+            coordinates = it.coordinate
+            placeNameText = placeName.text.toString().trim { it1 -> it1 <= ' ' }
+            timeS = it.timeStart
+            timeE = it.timeEnd
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -132,7 +123,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         if (requestCode == REQUEST_CODE_ADD_NAME_PLACE) {
             if (resultCode == RESULT_OK) {
                 data?.let{placeNameText = it.getStringExtra("nameCountry")
-                    placeName!!.text = placeNameText
+                    placeName.text = placeNameText
                     coordinates = it.getStringExtra("coordinate")
                     Toast.makeText(this, getString(R.string.addedLocation), Toast.LENGTH_SHORT).show()}
 
@@ -158,30 +149,38 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
 
     override fun onDateSet(view: android.widget.DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         if (isDataStart) {
-            calendarS = Calendar.getInstance()
-            calendarS.set(Calendar.YEAR, year)
-            calendarS.set(Calendar.MONTH, month)
-            calendarS.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            currentDateString = simpleDateFormat.format(calendarS.time)
-            currentDateString = currentDateString.replace('/', '.')
-            dateOfTripStart!!.text = currentDateString
-            hour2 = calendarS.get(Calendar.HOUR_OF_DAY)
-            minute2 = calendarS.get(Calendar.MINUTE)
-            val timePickerDialog2 = TimePickerDialog(this@AddNewTrip, R.style.TimePickerTheme, this@AddNewTrip, hour2, minute2, true)
-            timePickerDialog2.show()
+            isDataStartTrue(year, month, dayOfMonth)
         } else {
-            calendarE = Calendar.getInstance()
-            calendarE.set(Calendar.YEAR, year)
-            calendarE.set(Calendar.MONTH, month)
-            calendarE.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            endDateString = simpleDateFormat.format(calendarE.time)
-            endDateString = endDateString.replace('/', '.')
-            endDate!!.text = endDateString
-            hour = calendarE.get(Calendar.HOUR_OF_DAY)
-            minute = calendarE.get(Calendar.MINUTE)
-            val timePickerDialog = TimePickerDialog(this@AddNewTrip, R.style.TimePickerTheme, this@AddNewTrip, hour, minute, true)
-            timePickerDialog.show()
+            isDataStartFalse(year,month,dayOfMonth)
         }
+    }
+
+    private fun isDataStartTrue(year: Int, month: Int, dayOfMonth: Int) {
+        calendarS = Calendar.getInstance()
+        calendarS.set(Calendar.YEAR, year)
+        calendarS.set(Calendar.MONTH, month)
+        calendarS.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        currentDateString = simpleDateFormat.format(calendarS.time)
+        currentDateString = currentDateString.replace('/', '.')
+        dataTimeStart.text = currentDateString
+        hour2 = calendarS.get(Calendar.HOUR_OF_DAY)
+        minute2 = calendarS.get(Calendar.MINUTE)
+        val timePickerDialog2 = TimePickerDialog(this@AddNewTrip, R.style.TimePickerTheme, this@AddNewTrip, hour2, minute2, true)
+        timePickerDialog2.show()
+    }
+
+    private fun isDataStartFalse(year: Int, month: Int, dayOfMonth: Int){
+        calendarE = Calendar.getInstance()
+        calendarE.set(Calendar.YEAR, year)
+        calendarE.set(Calendar.MONTH, month)
+        calendarE.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        endDateString = simpleDateFormat.format(calendarE.time)
+        endDateString = endDateString.replace('/', '.')
+        endDate.text = endDateString
+        hour = calendarE.get(Calendar.HOUR_OF_DAY)
+        minute = calendarE.get(Calendar.MINUTE)
+        val timePickerDialog = TimePickerDialog(this@AddNewTrip, R.style.TimePickerTheme, this@AddNewTrip, hour, minute, true)
+        timePickerDialog.show()
     }
 
     @SuppressLint("SetTextI18n")
@@ -189,13 +188,13 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         if (isDataStart) {
             hourFinal = hourOfDay
             minuteFinal = minute
-            dateOfTripStart!!.text = "$currentDateString $hourFinal:$minuteFinal"
+            dataTimeStart.text = "$currentDateString $hourFinal:$minuteFinal"
             dateS = currentDateString
             timeS = "$hourFinal:$minuteFinal"
         } else {
             hourFinal2 = hourOfDay
             minuteFinal2 = minute
-            endDate!!.text = "$endDateString $hourFinal2:$minuteFinal2"
+            endDate.text = "$endDateString $hourFinal2:$minuteFinal2"
             dateE = endDateString
             timeE = "$hourFinal2:$minuteFinal2"
         }

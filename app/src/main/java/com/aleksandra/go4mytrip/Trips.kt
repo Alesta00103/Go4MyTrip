@@ -340,19 +340,19 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         }
     }
 
-    override fun onLongClicked(tripModel: TripModel?, position: Int) {
+    override fun onLongClicked(tripModel: TripModel, position: Int) {
         tripClickedPosition = position
-        var id:String?= null
-        var title: String? = null
-        var coordinate: String? = null
-        var tripDate: String? = null
-        var timeStart :String? = null
-        var timeEnd :String? = null
-        var image = 0
-        var tripDateEnd :String? = null
-        var namePlace :String? = null
+        var id:String?
+        var title: String?
+        var coordinate: String?
+        var tripDate: String?
+        var timeStart :String?
+        var timeEnd :String?
+        var image: Int
+        var tripDateEnd :String?
+        var namePlace :String?
 
-        tripModel?.let {
+        tripModel.let {
             id = it.tripId
             title = it.title
             coordinate = it.coordinate.toString()
