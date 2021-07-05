@@ -122,6 +122,7 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
         noPlaces = findViewById(R.id.noPlaces)
         noPlacesText = findViewById(R.id.noPlacesText)
 
+
         tripId = intent.getStringExtra("idTripToDetail").toString()
         nameTrip.text = intent.getStringExtra("title")
         startDate.text = intent.getStringExtra("dateS")
@@ -131,6 +132,7 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
         timeStart = intent.getStringExtra("timeStart")
         timeEnd = intent.getStringExtra("timeEnd")
         imageInt = intent.getIntExtra("image", 1)
+
         imagexTrip.setImageResource(imageInt)
         dateStart = dateStart.replace('.', '/')
         dateEnd = dateEnd.replace('.', '/')

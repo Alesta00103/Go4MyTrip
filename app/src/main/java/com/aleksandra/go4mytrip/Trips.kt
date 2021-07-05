@@ -121,7 +121,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 tripList.clear()
                 for (tripSnapshot in dataSnapshot.children) {
                     val trip = tripSnapshot.getValue(TripModel::class.java)
-                    trip?.let{
+                    trip?.let {
                         tripList.add(trip)
                     }
                     if (tripList.size == 0) {
@@ -147,8 +147,9 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                     dateStart = it.getStringExtra("date")
                     namePlace = it.getStringExtra("namePlace").toString()
                     coordinate = it.getStringExtra("coordinates").toString()
-                    timeStart= if (it.getStringExtra("timeStart") != null) {
+                    timeStart = if (it.getStringExtra("timeStart") != null) {
                         it.getStringExtra("timeStart")
+
                     } else {
                         "00:00:00"
                     }
@@ -178,32 +179,24 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             if (resultCode == RESULT_OK) {
                 data?.let {
 
-                val id = it.getStringExtra("id")
-                nameOfTrip = it.getStringExtra("nameTrip").toString()
-                dateStart = it.getStringExtra("date")
-                val namePlace = it.getStringExtra("namePlace")
-                val coordinate = it.getStringExtra("coordinates")
-                val timeStart: String? = if (it.getStringExtra("timeStart") != null) {
-                    it.getStringExtra("timeStart")
-                } else {
-                    "00:00:00"
-                }
-                val timeEnd: String? = if (it.getStringExtra("timeEnd") != null) {
-                    it.getStringExtra("timeEnd")
-                } else {
-                    "00:00:00"
-                }
-                dateEnd = it.getStringExtra("endDate")
-                val editItem: MutableMap<String, Any?> = HashMap()
-                editItem["title"] = nameOfTrip
-                editItem["tripDate"] = dateStart
-                editItem["tripDateEnd"] = dateEnd
-                editItem["coordinate"] = coordinate
-                editItem["namePlace"] = namePlace
-                editItem["timeStart"] = timeStart
-                editItem["timeEnd"] = timeEnd
+                    val tripModelU = it.getParcelableExtra<TripModel>(DATA) as TripModel
+                    if (tripModelU.timeStart == null) {
+                        tripModelU.timeStart = "00:00:00"
+                    }
+                    if (tripModelU.timeEnd == null) {
+                        tripModelU.timeStart = "00:00:00"
+                    }
 
-                    id?.let { it1 -> referenceTrips.child(uid).child(it1).updateChildren(editItem) }
+                    val editItem: MutableMap<String, Any?> = HashMap()
+                    editItem["title"] = tripModelU.title
+                    editItem["tripDate"] = tripModelU.tripDate
+                    editItem["tripDateEnd"] = tripModelU.tripDateEnd
+                    editItem["coordinate"] = tripModelU.coordinate
+                    editItem["namePlace"] = tripModelU.namePlace
+                    editItem["timeStart"] = tripModelU.timeStart
+                    editItem["timeEnd"] = tripModelU.timeEnd
+                    tripModelU.tripId?.let { it1 -> referenceTrips.child(uid).child(it1).updateChildren(editItem) }
+
                 }
             }
         }
@@ -249,7 +242,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 if (dataSnapshot.exists()) {
                     for (tripSnapshot in dataSnapshot.children) {
                         val trip = tripSnapshot.getValue(TripModel::class.java)
-                        trip?.let{
+                        trip?.let {
                             tripList.add(it)
                         }
                         if (tripList.size > 0) {
@@ -305,7 +298,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             deletedTrip = trip
             val id = trip.tripId
 
-            id?.let{
+            id?.let {
                 referenceTrips.child(uid).child(it).removeValue()
                 Snackbar.make(recyclerview_id, "Deleted trip " + deletedTrip.title, Snackbar.LENGTH_LONG)
                         .setAction("Undo") { referenceTrips.child(uid).child(id).setValue(deletedTrip) }.show()
@@ -327,7 +320,6 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             }
 
 
-
         }
 
         override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
@@ -342,15 +334,15 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
 
     override fun onLongClicked(tripModel: TripModel, position: Int) {
         tripClickedPosition = position
-        var id:String?
+        var id: String?
         var title: String?
         var coordinate: String?
         var tripDate: String?
-        var timeStart :String?
-        var timeEnd :String?
+        var timeStart: String?
+        var timeEnd: String?
         var image: Int
-        var tripDateEnd :String?
-        var namePlace :String?
+        var tripDateEnd: String?
+        var namePlace: String?
 
         tripModel.let {
             id = it.tripId
@@ -364,22 +356,15 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             namePlace = it.namePlace.toString()
         }
         val intent = Intent(this@Trips, AddNewTrip::class.java)
+        intent.putExtra(AddNewTrip.TRIP, tripModel)
         intent.putExtra("isViewOrUpdate", true)
-        intent.putExtra("id", id)
-        intent.putExtra("title", title)
-        intent.putExtra("coordinate", coordinate)
-        intent.putExtra("tripDate", tripDate)
-        intent.putExtra("timeStart", timeStart)
-        intent.putExtra("timeEnd", timeEnd)
-        intent.putExtra("image", image)
-        intent.putExtra("tripDateEnd", tripDateEnd)
-        intent.putExtra("namePlace", namePlace)
         startActivityForResult(intent, REQUEST_CODE_UPDATE_TRIP)
     }
 
     companion object {
         const val REQUEST_CODE_UPDATE_TRIP = 2
         const val REQUEST_CODE_ADD_TRIP = 1
+        const val DATA = "DATA"
     }
 
 

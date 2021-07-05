@@ -41,6 +41,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
     private var minuteFinal = 0
     private var hourFinal2 = 0
     private var minuteFinal2 = 0
+    private lateinit var tripFromTrips: TripModel
 
     @SuppressLint("SimpleDateFormat")
     var simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -52,17 +53,9 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         imageBack = findViewById(R.id.backBtn)
 
         backBtn.setOnClickListener { onBackPressed() }
+
         if (intent.getBooleanExtra("isViewOrUpdate", false)) {
-            id = intent.getStringExtra("id")
-            val title = intent.getStringExtra("title")
-            val namePlace = intent.getStringExtra("namePlace")
-            val coordinate = intent.getStringExtra("coordinate")
-            val tripDate = intent.getStringExtra("tripDate")
-            val tripDateEnd = intent.getStringExtra("tripDateEnd")
-            val timeStart = intent.getStringExtra("timeStart")
-            val timeEnd = intent.getStringExtra("timeEnd")
-            image = intent.getIntExtra("image", 0)
-            val tripModel = TripModel(id, title, namePlace, coordinate, image, tripDate, tripDateEnd, timeStart, timeEnd)
+            val tripModel = intent.getParcelableExtra<TripModel>(TRIP) as TripModel
             alreadyAvailableTrip = tripModel
             setViewOrUpdateTrip()
         }
@@ -85,17 +78,20 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         saveTrip.setOnClickListener {
             val sendTripInfoIntent = Intent()
             val name = editTripName.text.toString().trim { it <= ' ' }
+            var newTripModel :TripModel
             alreadyAvailableTrip?.let {
-                id = it.tripId
-                sendTripInfoIntent.putExtra("id", id)
+                newTripModel = TripModel(it.tripId, name, placeNameText, coordinates, it.imageTrip, dateS,dateE, timeS, timeE)
+                sendTripInfoIntent.putExtra(Trips.DATA, newTripModel)
+            } ?: run {
+                sendTripInfoIntent.putExtra("nameTrip", name)
+                sendTripInfoIntent.putExtra("date", dateS) //currentDateString
+                sendTripInfoIntent.putExtra("endDate", dateE)
+                sendTripInfoIntent.putExtra("namePlace", placeNameText)
+                sendTripInfoIntent.putExtra("coordinates", coordinates)
+                sendTripInfoIntent.putExtra("timeStart", timeS)
+                sendTripInfoIntent.putExtra("timeEnd", timeE)
             }
-            sendTripInfoIntent.putExtra("nameTrip", name)
-            sendTripInfoIntent.putExtra("date", dateS) //currentDateString
-            sendTripInfoIntent.putExtra("endDate", dateE)
-            sendTripInfoIntent.putExtra("namePlace", placeNameText)
-            sendTripInfoIntent.putExtra("coordinates", coordinates)
-            sendTripInfoIntent.putExtra("timeStart", timeS)
-            sendTripInfoIntent.putExtra("timeEnd", timeE)
+
             setResult(RESULT_OK, sendTripInfoIntent)
             finish()
         }
@@ -204,5 +200,6 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         const val REQUEST_CODE_ADD_NAME_PLACE = 1
         private const val REQUEST_CODE_STORAGE_PERMISSION = 2
         private const val REQUEST_CODE_SELECT_IMAGE = 3
+        const val TRIP  = "TRIP"
     }
 }
