@@ -96,10 +96,12 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                         dataSnapshot.children.forEach {
                             val trip = it.getValue(TripModel::class.java)
                             trip?.let { it1 ->
-
-                                if (it1.title!!.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
-                                    tripList.add(it1)
+                                it1.title?.let { it2 ->
+                                    if (it2.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
+                                        tripList.add(it1)
+                                    }
                                 }
+
                             }
                         }
                         val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
