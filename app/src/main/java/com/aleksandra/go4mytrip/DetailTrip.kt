@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+
 class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, PlaceListener {
     private var title: TextView? = null
     private var dateS: TextView? = null
@@ -51,7 +52,6 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var mapReference: DatabaseReference
     private lateinit var referenceTrips: DatabaseReference
-    private lateinit var user: FirebaseUser
     private lateinit var uid: String
     private var placeList: MutableList<PlaceModel?>? = null
     private lateinit var recyclerView: RecyclerView
@@ -115,8 +115,13 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
         image = findViewById(R.id.imagexTrip)
 
         mapReference = FirebaseDatabase.getInstance().getReference("placesToVisit")
-        user = FirebaseAuth.getInstance().currentUser!!
-        uid = user.uid
+
+       val user = FirebaseAuth.getInstance().currentUser
+
+       user?.let {
+           uid = user.uid
+       }
+
         placeList = ArrayList()
         recyclerView = findViewById(R.id.recyclerview_id)
         noPlaces = findViewById(R.id.noPlaces)
@@ -194,10 +199,12 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 placeList?.clear()
                 if (dataSnapshot.exists()) {
-                    for (placeSnapshot in dataSnapshot.children) {
-                        val placeModel = placeSnapshot.getValue(PlaceModel::class.java)
+
+                    dataSnapshot.children.forEach{
+                        val placeModel = it.getValue(PlaceModel::class.java)
                         placeList?.add(placeModel)
                     }
+
                     recyclerView.visibility = View.VISIBLE
                     noPlaces.visibility = View.GONE
                     noPlacesText.visibility = View.GONE

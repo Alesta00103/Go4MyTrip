@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,10 +10,12 @@
     tools:context=".DetailTrip">
 
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="@dimen/layout_250"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <ImageButton
             android:id="@+id/imagexTrip"
@@ -24,10 +27,10 @@
 
         <ImageView
             android:id="@+id/backBtn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="@dimen/margin_20"
+            android:layout_height="@dimen/margin_20"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_20"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_baseline_back"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,46 +40,47 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_shoppingList"
             style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="150dp"
-            android:layout_height="35dp"
-            android:layout_above="@+id/nameTrip"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="38dp"
+            android:layout_width="@dimen/layout_150"
+            android:layout_height="@dimen/margin_35"
+            android:layout_marginStart="@dimen/margin_16"
             android:backgroundTint="#32FFFFFF"
             android:text="@string/shopping_list"
             android:textColor="#fff"
-            android:textSize="10sp"
-            app:cornerRadius="20dp"
-            app:strokeColor="@color/colorPrimary"
-
-            />
+            android:textSize="@dimen/text_10"
+            app:layout_constraintBottom_toTopOf="@id/btn_packingList"
+            app:cornerRadius="@dimen/cornerRadius_20"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:strokeColor="@color/colorPrimary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_packingList"
             style="?attr/materialButtonStyle"
-            android:layout_width="130dp"
-            android:layout_height="35dp"
-            android:layout_above="@+id/nameTrip"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="5dp"
+            android:layout_width="@dimen/layout_130"
+            android:layout_height="@dimen/margin_35"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_60"
             android:backgroundTint="#32FFFFFF"
             android:text="@string/packing_list"
             android:textColor="#fff"
-            android:textSize="10sp"
-            app:cornerRadius="20dp"
+            android:textSize="@dimen/text_10"
+            app:cornerRadius="@dimen/cornerRadius_20"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/nameTrip"
             app:strokeColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/nameTrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="5dp"
-            android:paddingBottom="30dp"
+            android:layout_marginHorizontal="@dimen/margin_20"
+            android:layout_marginVertical="@dimen/margin_5"
+            android:layout_marginStart="@dimen/margin_20"
+            android:paddingBottom="@dimen/margin_30"
             android:text="@string/nametrip"
             android:textColor="#FFFFFF"
-            android:textSize="25sp">
+            android:textSize="@dimen/text_25"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
         </TextView>
 
@@ -84,67 +88,73 @@
             android:id="@+id/startDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginVertical="5dp"
-            android:layout_marginStart="20dp"
-            android:text="date"
+            android:layout_marginVertical="@dimen/margin_5"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_30"
+            android:text="@string/date"
             android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="@dimen/text_17" />
 
         <TextView
             android:id="@+id/dash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginHorizontal="5dp"
-            android:layout_marginVertical="5dp"
-            android:layout_toEndOf="@+id/startDate"
+            android:layout_marginHorizontal="@dimen/margin_5"
+            android:layout_marginVertical="@dimen/margin_5"
             android:text="@string/dash"
             android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+            android:textSize="@dimen/text_17"
+            app:layout_constraintLeft_toRightOf="@id/startDate"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/endDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginVertical="5dp"
+            android:layout_marginVertical="@dimen/margin_5"
             android:layout_toEndOf="@+id/dash"
             android:textColor="#FFFFFF"
-            android:textSize="17sp" />
+            app:layout_constraintLeft_toRightOf="@id/dash"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="@dimen/text_17" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout1"
-        android:layout_marginBottom="57dp"
+        android:layout_marginBottom="@dimen/margin_57"
         android:background="@color/backgroundDetailNote">
 
         <LinearLayout
             android:id="@+id/addingOptions"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="@dimen/margin_35"
             android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/addPlace"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/margin_25"
+                android:layout_height="@dimen/margin_25"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="@dimen/margin_10"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_add_location_24" />
 
         </LinearLayout>
 
 
-        <RelativeLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/addingOptions">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_id"
@@ -155,50 +165,55 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:orientation="vertical"
+                android:layout_gravity="center"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:id="@+id/noPlaces"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="@dimen/margin_50"
+                    android:layout_height="@dimen/margin_50"
                     android:layout_gravity="center"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/placeholder"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:id="@+id/noPlacesText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="No places"
-                    android:textSize="16sp"
+                    android:text="@string/no_places"
+                    android:textSize="@dimen/text_16"
                     android:visibility="gone" />
             </LinearLayout>
 
 
-        </RelativeLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="410dp">
+        android:layout_height="@dimen/layout_410"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/circleButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="@dimen/layout_70"
+            android:layout_height="@dimen/layout_70"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_gravity="right"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="130dp"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/layout_130"
             app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="50dp"
+            app:cardCornerRadius="@dimen/cornerRadius_50"
             app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             tools:ignore="RtlHardcoded">
 
             <TextView
@@ -209,10 +224,12 @@
                 android:gravity="center"
                 android:text="@string/day"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textSize="@dimen/text_13" />
+
 
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -222,5 +239,6 @@
         app:itemBackground="@color/white"
         app:itemIconTint="@drawable/selector"
         app:itemTextColor="@drawable/selector"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/menu_nav_details" />
 </RelativeLayout>

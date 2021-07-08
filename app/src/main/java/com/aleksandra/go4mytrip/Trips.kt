@@ -74,9 +74,12 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         costEstimatesList = ArrayList()
         noteList = ArrayList()
         packingLists = ArrayList()
-        user = FirebaseAuth.getInstance().currentUser!!
 
-        uid = user.uid
+        val user = FirebaseAuth.getInstance().currentUser
+
+        user?.let {
+            uid = user.uid
+        }
         referenceTrips = FirebaseDatabase.getInstance().getReference("trips")
         referenceUser = FirebaseDatabase.getInstance().getReference("users")
         referencePackingList = FirebaseDatabase.getInstance().getReference("packingList")
@@ -90,12 +93,12 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                 referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         tripList.clear()
-                        for (tripSnapshot in dataSnapshot.children) {
-                            val trip = tripSnapshot.getValue(TripModel::class.java)
-                            trip?.let {
+                        dataSnapshot.children.forEach {
+                            val trip = it.getValue(TripModel::class.java)
+                            trip?.let { it1 ->
 
-                                if (it.title!!.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
-                                    tripList.add(it)
+                                if (it1.title!!.toLowerCase(Locale.ROOT).contains(inputSearch.text.toString().toLowerCase(Locale.ROOT))) {
+                                    tripList.add(it1)
                                 }
                             }
                         }
@@ -119,8 +122,8 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         referenceTrips.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tripList.clear()
-                for (tripSnapshot in dataSnapshot.children) {
-                    val trip = tripSnapshot.getValue(TripModel::class.java)
+                dataSnapshot.children.forEach {
+                    val trip = it.getValue(TripModel::class.java)
                     trip?.let {
                         tripList.add(trip)
                     }
@@ -240,10 +243,10 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 tripList.clear()
                 if (dataSnapshot.exists()) {
-                    for (tripSnapshot in dataSnapshot.children) {
-                        val trip = tripSnapshot.getValue(TripModel::class.java)
-                        trip?.let {
-                            tripList.add(it)
+                    dataSnapshot.children.forEach {
+                        val trip = it.getValue(TripModel::class.java)
+                        trip?.let { it1 ->
+                            tripList.add(it1)
                         }
                         if (tripList.size > 0) {
                             recyclerview_id.visibility = View.VISIBLE

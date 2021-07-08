@@ -201,5 +201,6 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         private const val REQUEST_CODE_STORAGE_PERMISSION = 2
         private const val REQUEST_CODE_SELECT_IMAGE = 3
         const val TRIP  = "TRIP"
+
     }
 }

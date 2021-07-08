@@ -59,7 +59,6 @@
     <string name="all_items">All items</string>
     <string name="time">Time</string>
     <string name="not_set">not set</string>
-    <string name="date">date</string>
     <string name="from">From</string>
     <string name="address">Address</string>
     <string name="add_place">Add</string>
@@ -78,7 +77,11 @@
     <string name="_seconds">\nseconds</string>
     <string name="permissionDenied">Permission Denied!</string>
     <string name="addedLocation">"Added location"</string>
-
+    <string name="date">date</string>
+    <string name="no_places">No places</string>
+    <string name="trip_name">TRIP NAME:</string>
+    <string name="enter_name">Enter name ...</string>
+    <string name="to">To</string>
 
 
 </resources>
