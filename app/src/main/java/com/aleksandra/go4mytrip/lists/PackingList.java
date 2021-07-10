@@ -56,7 +56,6 @@ public class PackingList extends AppCompatActivity implements AddItemDialog.AddI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packing_list);
 
-        //---------------------------------------------------------
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -65,9 +64,7 @@ public class PackingList extends AppCompatActivity implements AddItemDialog.AddI
         FloatingActionButton fab = findViewById(R.id.fab);
         backBtn = findViewById(R.id.backBtn);
 
-
         categories = new CharSequence[]{
-
                 "Essentials",
                 "Clothes",
                 "Toiletries",
@@ -124,20 +121,12 @@ public class PackingList extends AppCompatActivity implements AddItemDialog.AddI
             // Get extra data included in the Intent
             String idItem = intentCheckBox.getStringExtra("idPckItem");
             Boolean isCheck = intentCheckBox.getBooleanExtra("isCheck", false);
-           /* String nameItem = intentCheckBox.getStringExtra("name");
-            String categoryItem = intentCheckBox.getStringExtra("category");*/
-            //  registerReceiver(messageReceiverCB, );
-            // unregisterReceiver(messageReceiverCB);
 
-            //Toast.makeText(context, "isCheck: " + isCheck, Toast.LENGTH_SHORT).show();
             assert idItem != null;
             Map<String, Object> updates = new HashMap<>();
 
             updates.put("checked", isCheck);
-//etc
-            // PackingModel packingModel = new PackingModel(idItem, nameItem, categoryItem, isCheck );
             referencePackingList.child(uid).child("trips").child(idTrip).child(idItem).updateChildren(updates);
-            // Toast.makeText(context, "updated idTrip: " + idTrip, Toast.LENGTH_SHORT).show();
 
 
         }
@@ -149,41 +138,27 @@ public class PackingList extends AppCompatActivity implements AddItemDialog.AddI
             // Get extra data included in the Intent
             String idItem = intentToBuy.getStringExtra("idPckItem");
             Boolean isPressed = intentToBuy.getBooleanExtra("isPressed", false);
-           /* String nameItem = intentCheckBox.getStringExtra("name");
-            String categoryItem = intentCheckBox.getStringExtra("category");*/
-            //  registerReceiver(messageReceiverCB, );
-            // unregisterReceiver(messageReceiverCB);
 
-            //Toast.makeText(context, "isPressed: " + isPressed, Toast.LENGTH_SHORT).show();
             assert idItem != null;
             Map<String, Object> updates = new HashMap<>();
-
             updates.put("toBuy", isPressed);
-//etc
-            // PackingModel packingModel = new PackingModel(idItem, nameItem, categoryItem, isCheck );
             referencePackingList.child(uid).child("trips").child(idTrip).child(idItem).updateChildren(updates);
-            //Toast.makeText(context, "updated idTrip: " + idTrip, Toast.LENGTH_SHORT).show();
 
         }
     };
 
     private void showDialog() {
-        // final String[] categories = getApplicationContext().getResources().getStringArray(R.array.categories);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(PackingList.this, R.style.AlertDialogTheme);
         final EditText input = new EditText(this);
         input.setHint("Enter Name");
         input.setHintTextColor(getResources().getColor(R.color.textHint));
         input.setTextColor(getResources().getColor(R.color.white));
         input.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
-
         input.setLinkTextColor(getResources().getColor(R.color.white));
         input.setHighlightColor(getResources().getColor(R.color.white));
 
         builder.setTitle("Add item");
-
         builder.setIcon(R.drawable.ic_baseline_list_add_24);
-        //builder.setMessage("Select Category");
-
         builder.setSingleChoiceItems(categories, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -194,17 +169,12 @@ public class PackingList extends AppCompatActivity implements AddItemDialog.AddI
             }
         });
         builder.setView(input);
-        //builder.setMessage("Enter Name");
-        //builder.setView(input);
         builder.setBackground(getResources().getDrawable(R.drawable.background_dialog, null));
         builder.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = input.getText().toString();
                 id = referencePackingList.push().getKey();
-                // packingModel=null;
-
-
                 if (!name.equals("") && v != null) {
                     PackingModel packingModel = new PackingModel(id, name, v, false, false, false);
                     assert id != null;
