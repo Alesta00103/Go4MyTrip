@@ -47,7 +47,7 @@ class PackingListAdapter(private val context: Context, private val mData: Mutabl
             intentToBuy.putExtra("idPckItem", id)
             LocalBroadcastManager.getInstance(context).sendBroadcastSync(intentToBuy)
         }
-        holder.deletePackingItem.setOnClickListener { //packingListListener.onClickDelete(mData.get(position), position);
+        holder.deletePackingItem.setOnClickListener {
             val id = mData[position].itemId
             val intentPackingItemDelete = Intent("delete-item")
             intentPackingItemDelete.putExtra("idPackingItemDelete", id)
