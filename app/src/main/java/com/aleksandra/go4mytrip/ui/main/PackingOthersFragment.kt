@@ -15,7 +15,7 @@ import com.google.firebase.database.*
 import java.util.*
 
 class PackingOthersFragment : Fragment() {
-    private lateinit var packingList: MutableList<PackingModel?>
+    private lateinit var packingList: MutableList<PackingModel>
     private lateinit var recyclerView: RecyclerView
     private lateinit var uid: String
     private lateinit var idTrip: String
@@ -53,7 +53,7 @@ class PackingOthersFragment : Fragment() {
                     }
 
                 }
-                val myAdapter = PackingListAdapter(activity, packingList, isPacking)
+                val myAdapter = activity?.let { PackingListAdapter(it, packingList, isPacking) }
                 recyclerView.layoutManager = LinearLayoutManager(activity)
                 recyclerView.setHasFixedSize(true)
                 recyclerView.adapter = myAdapter

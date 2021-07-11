@@ -15,12 +15,11 @@ import com.google.firebase.database.*
 import java.util.*
 
 class PackingEssentialsFragment : Fragment() {
-    private lateinit var packingList: MutableList<PackingModel?>
+    private lateinit var packingList: MutableList<PackingModel>
     private lateinit var recyclerView: RecyclerView
     private lateinit var uid: String
     private lateinit var idTrip: String
     private lateinit var referencePackingList: DatabaseReference
-    private lateinit var myAdapter: PackingListAdapter
     var isPacking = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +51,7 @@ class PackingEssentialsFragment : Fragment() {
                         }
                     }
                 }
-                myAdapter = PackingListAdapter(activity, packingList, isPacking)
+                val myAdapter = activity?.let { PackingListAdapter(it, packingList, isPacking) }
                 recyclerView.layoutManager = LinearLayoutManager(activity)
                 recyclerView.setHasFixedSize(true)
                 recyclerView.adapter = myAdapter
