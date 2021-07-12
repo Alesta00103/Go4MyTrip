@@ -82,6 +82,10 @@
     <string name="trip_name">TRIP NAME:</string>
     <string name="enter_name">Enter name ...</string>
     <string name="to">To</string>
+    <string name="packing_list">Packing List</string>
+    <string name="shopping_list">Shopping list</string>
+    <string name="trip_name">TRIP NAME:</string>
+    <string name="enter_name">Enter name ...</string>
 
 
 </resources>
