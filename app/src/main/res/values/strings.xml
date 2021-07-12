@@ -65,5 +65,8 @@
     <string name="add_place">Add</string>
     <string name="nearby_place">Nearby Place</string>
     <string name="select">Select</string>
+    <string name="successfully">Signed In Successfully</string>
+    <string name="failed">Signed In Failed</string>
+    <string name="userAdded">user added</string>
 
 </resources>
