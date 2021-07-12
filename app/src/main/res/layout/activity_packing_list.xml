@@ -16,14 +16,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:id="@+id/backBtn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="@dimen/margin_20"
+                android:layout_height="@dimen/margin_20"
+                android:layout_marginStart="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_20"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_back"
                 app:tint="@color/white" />
@@ -34,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize"
                 android:padding="@dimen/appbar_padding"
-                android:text="Packing List"
+                android:text="@string/packing_list"
 
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
         </LinearLayout>
