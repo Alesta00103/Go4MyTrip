@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.googlemap;
 
 public interface PlaceListener {
     void onLongClicked(PlaceModel placeModel, int position);

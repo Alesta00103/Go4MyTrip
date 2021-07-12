@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.trips;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,15 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aleksandra.go4mytrip.googlemap.DetailsMap;
+import com.aleksandra.go4mytrip.lists.PackingList;
+import com.aleksandra.go4mytrip.googlemap.PlaceAdapter;
+import com.aleksandra.go4mytrip.googlemap.PlaceListener;
+import com.aleksandra.go4mytrip.googlemap.PlaceModel;
+import com.aleksandra.go4mytrip.R;
+import com.aleksandra.go4mytrip.ReminderBroadcast;
+import com.aleksandra.go4mytrip.lists.ShoppingList;
+import com.aleksandra.go4mytrip.notes.DetailsNotes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,8 +47,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +57,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class DetailTrip extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, PlaceListener {
+public class DetailTrip extends AppCompatActivity
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, PlaceListener {
+
     private TextView title;
     private TextView dateS;
     private TextView dateE;
@@ -93,10 +103,13 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
     Date dateAndTimeDate;
     long dateAndTimeMillis;
     Calendar calendarS;
+    Button testBtn;
 
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +172,7 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         counter = findViewById(R.id.counterDown);
         packingListBtn = findViewById(R.id.btn_packingList);
         shoppingListBtn = findViewById(R.id.btn_shoppingList);
+        testBtn = findViewById(R.id.btn_new_button);
         mapReference = FirebaseDatabase.getInstance().getReference("placesToVisit");
         user = FirebaseAuth.getInstance().getCurrentUser();
         uid = user.getUid();
@@ -166,7 +180,6 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
         recyclerView = findViewById(R.id.recyclerview_id);
         noPlaces = findViewById(R.id.noPlaces);
         noPlacesText = findViewById(R.id.noPlacesText);
-
 
         tripId = getIntent().getStringExtra("idTripToDetail");
         // idOfThisTrip.setText(tripId);
@@ -236,6 +249,13 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
                 Intent intent = new Intent(DetailTrip.this, ShoppingList.class);
                 intent.putExtra("idTripToChange", tripId);
                 startActivity(intent);
+            }
+        });
+
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DetailTrip.this, "You pressed new button", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -427,7 +447,8 @@ public class DetailTrip extends AppCompatActivity implements DatePickerDialog.On
     }
 
     private void updateItem() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Map<String, Object> setEditTime = new HashMap<>();
         setEditTime.put("date", currentDateString);
         setEditTime.put("time", currentTimeString);

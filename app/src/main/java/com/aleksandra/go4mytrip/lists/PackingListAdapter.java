@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.lists;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.aleksandra.go4mytrip.R;
 
 import java.util.List;
 

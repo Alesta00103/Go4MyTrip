@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.costestimate;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.aleksandra.go4mytrip.R;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.notes;
 
 import android.Manifest;
 import android.content.Intent;
@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.aleksandra.go4mytrip.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import java.io.InputStream;

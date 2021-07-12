@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.trips;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
@@ -21,8 +21,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import java.text.DateFormat;
-import java.text.ParseException;
+import com.aleksandra.go4mytrip.DatePicker;
+import com.aleksandra.go4mytrip.googlemap.DetailsMap;
+import com.aleksandra.go4mytrip.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
