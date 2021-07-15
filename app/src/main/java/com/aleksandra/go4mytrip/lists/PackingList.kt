@@ -75,39 +75,26 @@ class PackingList : AppCompatActivity(), AddItemDialogListener {
 
     private var mMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intentPackingItemDelete: Intent) {
-            // Get extra data included in the Intent
-            val idPackingItemToDelete = intentPackingItemDelete.getStringExtra("idPackingItemDelete")
-            Toast.makeText(this@PackingList, getString(R.string.deleted_item), Toast.LENGTH_SHORT).show()
-            idPackingItemToDelete?.let {
-                referencePackingList.child(uid).child("trips").child(idTrip).child(idPackingItemToDelete).removeValue()
-            }
-
+            val packingModel = intentPackingItemDelete.getParcelableExtra<PackingModel>(DELETE) as PackingModel
+                Toast.makeText(this@PackingList, getString(R.string.deleted_item), Toast.LENGTH_SHORT).show()
+                packingModel.itemId?.let { it1 -> referencePackingList.child(uid).child("trips").child(idTrip).child(it1).removeValue() }
         }
     }
     private var messageReceiverCB: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intentCheckBox: Intent) {
-            // Get extra data included in the Intent
-            val idItem = intentCheckBox.getStringExtra("idPckItem")
-            val isCheck = intentCheckBox.getBooleanExtra("isCheck", false)
+            val packingModel = intentCheckBox.getParcelableExtra<PackingModel>(CHECKBOX) as PackingModel
             val updates: MutableMap<String, Any> = HashMap()
-            updates["checked"] = isCheck
-            idItem?.let {
-                referencePackingList.child(uid).child("trips").child(idTrip).child(idItem).updateChildren(updates)
-            }
-
+            updates["checked"] = packingModel.checked ?: false
+            packingModel.itemId?.let { it1-> referencePackingList.child(uid).child("trips").child(idTrip).child(it1).updateChildren(updates)}
         }
     }
     private var messageReceiverBP: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intentToBuy: Intent) {
-            // Get extra data included in the Intent
-            val idItem = intentToBuy.getStringExtra("idPckItem")
-            val isPressed = intentToBuy.getBooleanExtra("isPressed", false)
-
+            val packingModel = intentToBuy.getParcelableExtra<PackingModel>(TOBUY) as PackingModel
             val updates: MutableMap<String, Any> = HashMap()
-            updates["toBuy"] = isPressed
-            idItem?.let {
-                referencePackingList.child(uid).child("trips").child(idTrip).child(idItem).updateChildren(updates)
-            }
+            updates["toBuy"] = packingModel.toBuy ?: false
+            packingModel.itemId?.let { it1-> referencePackingList.child(uid).child("trips").child(idTrip).child(it1).updateChildren(updates)}
+
         }
     }
 
@@ -178,5 +165,10 @@ class PackingList : AppCompatActivity(), AddItemDialogListener {
     private fun clearPackingItem() {
         nameOfItem = null.toString()
         categoryOfItem = null.toString()
+    }
+    companion object{
+        const val DELETE = "DELETE"
+        const val CHECKBOX = "CHECKBOX"
+        const val TOBUY = "TOBUY"
     }
 }

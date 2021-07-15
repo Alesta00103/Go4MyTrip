@@ -80,7 +80,7 @@
         android:layout_marginBottom="@dimen/margin_50"
         android:clipToPadding="false"
         android:paddingStart="0dp"
-        android:paddingBottom="@dimen/margin_12"
+        android:paddingBottom="@dimen/margin_30"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView"

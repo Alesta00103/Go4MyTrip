@@ -39,38 +39,57 @@ class PackingListAdapter(private val context: Context, private val mData: Mutabl
         holder.checkBox.isChecked = mData[position].checked!!
         holder.sCheckBox.isChecked = mData[position].checkedS!!
         holder.addToShoppingList.isChecked = mData[position].toBuy!!
+
         holder.addToShoppingList.setOnClickListener {
-            val isPressed: Boolean = holder.addToShoppingList.isChecked
             val id = mData[position].itemId
-            val intentToBuy = Intent("toBuy")
-            intentToBuy.putExtra("isPressed", isPressed)
-            intentToBuy.putExtra("idPckItem", id)
+            val name = mData[position].name
+            val category = mData[position].category
+            val isCheck = holder.checkBox.isChecked
+            val isCheckedS = holder.sCheckBox.isChecked
+            val toBuy =  holder.addToShoppingList.isChecked
+            val intentToBuy = Intent(context, ShoppingList::class.java)
+            val packingModel = PackingModel(id, name, category, isCheckedS, isCheck, toBuy)
+            intentToBuy.putExtra(PackingList.TOBUY, packingModel)
+            intentToBuy.action = "toBuy"
             LocalBroadcastManager.getInstance(context).sendBroadcastSync(intentToBuy)
         }
         holder.deletePackingItem.setOnClickListener {
             val id = mData[position].itemId
-            val intentPackingItemDelete = Intent("delete-item")
-            intentPackingItemDelete.putExtra("idPackingItemDelete", id)
+            val name = mData[position].name
+            val category = mData[position].category
+            val isCheck = holder.checkBox.isChecked
+            val isCheckedS = holder.sCheckBox.isChecked
+            val toBuy =  holder.addToShoppingList.isChecked
+            val packingModel = PackingModel(id, name, category, isCheckedS, isCheck, toBuy)
+            val intentPackingItemDelete = Intent(context, PackingList::class.java)
+            intentPackingItemDelete.putExtra(PackingList.DELETE, packingModel)
+            intentPackingItemDelete.action = "delete-item"
             LocalBroadcastManager.getInstance(context).sendBroadcast(intentPackingItemDelete)
         }
         holder.checkBox.setOnClickListener {
             val id = mData[position].itemId
             val name = mData[position].name
             val category = mData[position].category
-            val isCheck: Boolean = holder.checkBox.isChecked
-            val intentCheckBox = Intent("checkbox")
-            intentCheckBox.putExtra("isCheck", isCheck)
-            intentCheckBox.putExtra("idPckItem", id)
-            intentCheckBox.putExtra("name", name)
-            intentCheckBox.putExtra("category", category)
+            val isCheck = holder.checkBox.isChecked
+            val isCheckedS = holder.sCheckBox.isChecked
+            val toBuy =  holder.addToShoppingList.isChecked
+            val packingModel = PackingModel(id, name, category, isCheckedS, isCheck, toBuy)
+            val intentCheckBox = Intent(context, PackingList::class.java)
+            intentCheckBox.putExtra(PackingList.CHECKBOX, packingModel)
+            intentCheckBox.action = "checkbox"
             LocalBroadcastManager.getInstance(context).sendBroadcastSync(intentCheckBox)
         }
         holder.sCheckBox.setOnClickListener {
             val id = mData[position].itemId
-            val isCheckS: Boolean = holder.sCheckBox.isChecked
-            val intentCheckBoxS = Intent("checkboxS")
-            intentCheckBoxS.putExtra("isCheckS", isCheckS)
-            intentCheckBoxS.putExtra("idPckItem", id)
+            val name = mData[position].name
+            val category = mData[position].category
+            val isCheck = holder.checkBox.isChecked
+            val isCheckedS: Boolean = holder.sCheckBox.isChecked
+            val toBuy =  holder.addToShoppingList.isChecked
+            val packingModel = PackingModel(id, name, category, isCheckedS, isCheck, toBuy)
+            val intentCheckBoxS = Intent(context, ShoppingList::class.java)
+            intentCheckBoxS.putExtra(ShoppingList.CHECKBOXS, packingModel)
+            intentCheckBoxS.action = "checkboxS"
             LocalBroadcastManager.getInstance(context).sendBroadcastSync(intentCheckBoxS)
         }
     }

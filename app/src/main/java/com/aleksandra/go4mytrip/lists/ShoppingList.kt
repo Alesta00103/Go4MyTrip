@@ -60,19 +60,17 @@ class ShoppingList : AppCompatActivity(), AddItemDialogListener {
         numberOfItems.text = "Items: " + 0
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiverCB,
                 IntentFilter("checkboxS"))
+
         fab.setOnClickListener { showDialog() }
     }
 
     private var messageReceiverCB: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intentCheckBoxS: Intent) {
-            // Get extra data included in the Intent
-            val idItem = intentCheckBoxS.getStringExtra("idPckItem")
-            val isCheck = intentCheckBoxS.getBooleanExtra("isCheckS", false)
+            val packingModel = intentCheckBoxS.getParcelableExtra<PackingModel>(CHECKBOXS) as PackingModel
             val updates: MutableMap<String, Any> = HashMap()
-            updates["checkedS"] = isCheck
-            idItem?.let {
-                referencePackingList.child(uid).child("trips").child(idTrip).child(idItem).updateChildren(updates)
-            }
+            updates["checkedS"] = packingModel.checkedS ?: false
+            packingModel.itemId?.let {it1 -> referencePackingList.child(uid).child("trips").child(idTrip).child(it1).updateChildren(updates)}
+
         }
     }
 
@@ -162,5 +160,9 @@ class ShoppingList : AppCompatActivity(), AddItemDialogListener {
     private fun clearPackingItem() {
         nameOfItem = null.toString()
         categoryOfItem = null.toString()
+    }
+
+    companion object{
+        const val CHECKBOXS = "CHECKBOXS"
     }
 }
