@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip
+package com.aleksandra.go4mytrip.trips
 
 import android.content.Intent
 import android.graphics.Canvas
@@ -16,6 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aleksandra.go4mytrip.R
+import com.aleksandra.go4mytrip.costestimate.CostEstimateModel
+import com.aleksandra.go4mytrip.lists.PackingModel
+import com.aleksandra.go4mytrip.login.MainActivity
+import com.aleksandra.go4mytrip.login.User
+import com.aleksandra.go4mytrip.notes.NoteModel
+import com.aleksandra.go4mytrip.trips.TripsListener
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient

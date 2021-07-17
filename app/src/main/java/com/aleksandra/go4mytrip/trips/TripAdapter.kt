@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip
+package com.aleksandra.go4mytrip.trips
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.aleksandra.go4mytrip.R
+import com.aleksandra.go4mytrip.trips.TripModel
+import com.aleksandra.go4mytrip.trips.TripsListener
 
 class TripAdapter(private val context: Context, private val mData: MutableList<TripModel>?, private val tripsListener: TripsListener) : RecyclerView.Adapter<TripAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

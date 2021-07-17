@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip
+package com.aleksandra.go4mytrip.trips
 
 import android.os.Parcel
 import android.os.Parcelable

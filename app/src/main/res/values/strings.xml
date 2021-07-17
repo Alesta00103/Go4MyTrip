@@ -64,6 +64,9 @@
     <string name="add_place">Add</string>
     <string name="nearby_place">Nearby Place</string>
     <string name="select">Select</string>
+    <string name="successfully">Signed In Successfully</string>
+    <string name="failed">Signed In Failed</string>
+    <string name="userAdded">user added</string>
     <string name="no_trips">No trips</string>
     <string name="DuringTheTrip">"During\nThe\nTrip"</string>
     <string name="AfterTrip">"After\nTrip"</string>
@@ -79,13 +82,9 @@
     <string name="addedLocation">"Added location"</string>
     <string name="date">date</string>
     <string name="no_places">No places</string>
-    <string name="trip_name">TRIP NAME:</string>
     <string name="enter_name">Enter name ...</string>
     <string name="to">To</string>
-    <string name="packing_list">Packing List</string>
-    <string name="shopping_list">Shopping list</string>
     <string name="trip_name">TRIP NAME:</string>
-    <string name="enter_name">Enter name ...</string>
 
 
 </resources>

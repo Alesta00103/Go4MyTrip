@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip
+package com.aleksandra.go4mytrip.trips
 
 import android.annotation.SuppressLint
 import android.app.*
@@ -17,9 +17,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aleksandra.go4mytrip.DatePicker
+import com.aleksandra.go4mytrip.R
+import com.aleksandra.go4mytrip.ReminderBroadcast
+import com.aleksandra.go4mytrip.googlemap.DetailsMap
+import com.aleksandra.go4mytrip.googlemap.PlaceAdapter
+import com.aleksandra.go4mytrip.googlemap.PlaceListener
+import com.aleksandra.go4mytrip.googlemap.PlaceModel
+import com.aleksandra.go4mytrip.lists.PackingList
+import com.aleksandra.go4mytrip.lists.ShoppingList
+import com.aleksandra.go4mytrip.notes.DetailsNotes
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_details_trip.*
 import java.text.ParseException
@@ -71,7 +80,8 @@ class DetailTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener, Pl
     @SuppressLint("SimpleDateFormat")
     var sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
 
-    @SuppressLint("SimpleDateFormat")
+    @SuppressLint(
+              "SimpleDateFormat")
     var simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     override fun onCreate(savedInstanceState: Bundle?) {

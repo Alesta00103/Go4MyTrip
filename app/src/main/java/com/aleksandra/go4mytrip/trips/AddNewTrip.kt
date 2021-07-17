@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip
+package com.aleksandra.go4mytrip.trips
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog.OnDateSetListener
@@ -11,6 +11,11 @@ import android.provider.MediaStore
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import com.aleksandra.go4mytrip.DatePicker
+import com.aleksandra.go4mytrip.R
+import com.aleksandra.go4mytrip.trips.TripModel
+import com.aleksandra.go4mytrip.trips.Trips
+import com.aleksandra.go4mytrip.googlemap.DetailsMap
 import kotlinx.android.synthetic.main.activity_add_new_trip.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,7 +83,7 @@ class AddNewTrip : AppCompatActivity(), OnDateSetListener, OnTimeSetListener {
         saveTrip.setOnClickListener {
             val sendTripInfoIntent = Intent()
             val name = editTripName.text.toString().trim { it <= ' ' }
-            var newTripModel :TripModel
+            var newTripModel : TripModel
             alreadyAvailableTrip?.let {
                 newTripModel = TripModel(it.tripId, name, placeNameText, coordinates, it.imageTrip, dateS,dateE, timeS, timeE)
                 sendTripInfoIntent.putExtra(Trips.DATA, newTripModel)

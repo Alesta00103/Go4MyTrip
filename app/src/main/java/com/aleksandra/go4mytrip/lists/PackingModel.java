@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.lists;
 
 public class PackingModel {
     String itemId;

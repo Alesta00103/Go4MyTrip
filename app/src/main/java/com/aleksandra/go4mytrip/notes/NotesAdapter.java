@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip;
+package com.aleksandra.go4mytrip.notes;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aleksandra.go4mytrip.R;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
