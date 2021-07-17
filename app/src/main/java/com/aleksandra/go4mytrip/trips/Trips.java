@@ -53,24 +53,25 @@ import java.util.Random;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, TripsListener {
-    TextView nameAndSurname;
-    TextView emailData;
     ImageView logoutBtn;
     ImageView image2;
     String email;
     String uriPhoto;
     String userName;
     FloatingActionButton addTripBtn;
+
     List<TripModel> tripList;
     List<CostEstimateModel> costEstimatesList;
     List<NoteModel> noteList;
     List<PackingModel> packingLists;
+
     DatabaseReference referenceTrips;
     DatabaseReference referenceUser;
     DatabaseReference referencePackingList;
     DatabaseReference referenceExpenses;
     DatabaseReference referenceNotes;
     DatabaseReference referencePlaces;
+
     FirebaseUser user;
     String uid;
     RecyclerView mrv;
@@ -100,8 +101,6 @@ public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trips);
 
-       /* nameAndSurname = findViewById(R.id.personData);
-        emailData = findViewById(R.id.personEmail);*/
         image2 = findViewById(R.id.image2);
         addTripBtn = findViewById(R.id.circleButton);
         mrv = findViewById(R.id.recyclerview_id);
@@ -122,15 +121,6 @@ public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClic
         inputSearch = findViewById(R.id.inputSearch);
         noTrips = findViewById(R.id.noTrips);
         noTripsText = findViewById(R.id.noTripsText);
-
-       /* LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-id"));*/
-
-
-       /* nameAndSurname.setText(getIntent().getStringExtra("name"));
-        emailData.setText(email);
-        uriPhoto = getIntent().getStringExtra("photo");
-        Picasso.get().load(uriPhoto).into(image2);*/
 
         inputSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -159,13 +149,6 @@ public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClic
                         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(mrv);
                         mrv.setAdapter(myAdapter);
 
-               /* mrecyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Toast.makeText(Trips.this, "position: "+ position, Toast.LENGTH_SHORT).show();
-                       // referenceTrips.child(uid).child(position)
-                    }
-                });*/
                     }
 
                     @Override
@@ -303,7 +286,6 @@ public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClic
         return choice;
     }
 
-
     private void clearTripCard() {
         nameOfTrip = null;
         imageUriOfTrip = 0;
@@ -334,9 +316,6 @@ public class Trips extends AppCompatActivity implements PopupMenu.OnMenuItemClic
                     uriPhoto = user.getImageUser();
                     Picasso.get().load(uriPhoto).into(image2);
                 }
-
-               /* nameAndSurname.setText(userName);
-                emailData.setText(email);*/
 
             }
 
