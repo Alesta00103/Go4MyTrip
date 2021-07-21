@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.trips.Trips
-import com.aleksandra.go4mytrip.login.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
