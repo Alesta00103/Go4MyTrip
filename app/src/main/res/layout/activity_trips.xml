@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,46 +28,46 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="@dimen/layout_120"
                 android:background="@color/colorPrimaryDark"
                 android:contentDescription="@string/app_name"
-                android:scaleType="centerCrop"></ImageView>
+                android:scaleType="centerCrop" />
 
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/layout_60"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
             <EditText
                 android:id="@+id/inputSearch"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="@dimen/margin_35"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="@dimen/margin_20"
+                android:layout_marginEnd="@dimen/margin_20"
+                android:layout_marginBottom="@dimen/margin_12"
 
                 android:background="@drawable/background_search"
                 android:hint="@string/search_trips"
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:paddingStart="33dp"
+                android:paddingStart="@dimen/padding_33"
                 android:textColor="@color/gray"
                 android:textColorHint="@color/hintTextSearch"
-                android:textSize="16sp"
-
+                android:textSize="@dimen/text_16"
                 app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="none" />
+                app:layout_collapseMode="none"
+                tools:ignore="RtlSymmetry" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginStart="26dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="@dimen/margin_26"
+                android:layout_marginBottom="@dimen/margin_16"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_baseline_search_24"
                 app:layout_anchor="@id/appBarLayout"
@@ -75,7 +76,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="@dimen/layout_60"
                 android:background="@color/colorPrimaryDark"
                 app:layout_anchor="@id/appBarLayout"
                 app:layout_collapseMode="pin" />
@@ -84,58 +85,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_14"
                 android:text="@string/trips"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_18"
                 android:textStyle="bold"
                 app:layout_anchor="@id/appBarLayout"
                 app:layout_collapseMode="pin" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="@dimen/margin_30"
+                android:layout_height="@dimen/margin_30"
+                android:layout_marginStart="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_14"
                 app:civ_border_color="#FFFFFF"
-                app:civ_border_width="0.5dp"
+                app:civ_border_width="@dimen/civ_border_width_0.5dp"
                 app:layout_anchor="@id/appBarLayout"
 
                 app:layout_collapseMode="pin" />
-            <!--<TextView
-                android:id="@+id/personEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="15dp"
-                app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="pin"
-                android:text="@string/example_gmail_com"
-                android:textColor="#BFB6B6"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/personData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/name_and_surname"
-
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="100dp"
-                app:layout_anchor="@id/appBarLayout"
-                app:layout_collapseMode="pin"
-                android:textColor="@color/white"
-                android:textSize="14sp" />-->
 
             <ImageView
                 android:id="@+id/logout_google"
-                android:layout_width="22dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/margin_22"
+                android:layout_height="@dimen/margin_25"
                 android:layout_gravity="end|top"
-                android:layout_margin="14dp"
-                android:layout_marginStart="100dp"
+                android:layout_margin="@dimen/margin_14"
+                android:layout_marginStart="@dimen/margin_100"
                 android:background="@drawable/ic_baseline_more_vert_24"
                 android:contentDescription="@string/app_name"
                 android:onClick="showPopup"
@@ -145,7 +121,6 @@
                 app:tint="@color/white" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -153,14 +128,14 @@
         android:id="@+id/recyclerview_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="2dp"
+        android:layout_marginHorizontal="@dimen/margin_2"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <ImageView
         android:id="@+id/noTrips"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/margin_80"
+        android:layout_height="@dimen/margin_80"
         android:layout_gravity="center"
         android:contentDescription="@string/app_name"
         android:src="@drawable/caravan"
@@ -171,9 +146,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="115dp"
-        android:text="No trips"
-        android:textSize="16sp"
+        android:layout_marginTop="@dimen/margin_115"
+        android:text="@string/no_trips"
+        android:textSize="@dimen/text_16"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -181,10 +156,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="26dp"
+        android:layout_margin="@dimen/margin_26"
         android:backgroundTint="@color/colorPrimaryDark"
         android:tint="@color/colorPrimaryDark"
-
         app:borderWidth="0dp"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_baseline_add_24" />
