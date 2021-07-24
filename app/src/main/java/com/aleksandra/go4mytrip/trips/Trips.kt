@@ -20,7 +20,7 @@ import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.costestimate.CostEstimateModel
 import com.aleksandra.go4mytrip.lists.PackingModel
 import com.aleksandra.go4mytrip.login.MainActivity
-import com.aleksandra.go4mytrip.login.User
+import com.aleksandra.go4mytrip.login.UserModel
 import com.aleksandra.go4mytrip.notes.NoteModel
 import com.aleksandra.go4mytrip.trips.TripsListener
 import com.google.android.gms.auth.api.Auth
@@ -237,7 +237,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         super.onStart()
         referenceUser.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
+                val user = snapshot.getValue(UserModel::class.java)
                 user?.let {
                     email = it.email
                     userName = it.name
