@@ -1,4 +1,5 @@
 package com.aleksandra.go4mytrip.ui.main.clothes
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +10,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.lists.PackingListAdapter
 import com.aleksandra.go4mytrip.lists.PackingModel
+import com.aleksandra.go4mytrip.trips.TripModel
 
 class PackingClothesFragment : Fragment(), PackingClothesContract.View {
 
     private lateinit var recyclerView: RecyclerView
-    val presenter by lazy{PackingClothesPresenter(this)}
-    private lateinit var idTrip: String
+    val presenter by lazy { PackingClothesPresenter(this) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        idTrip = activity?.intent?.getStringExtra("idTripToChange").toString()
+    }
+
+    companion object {
+        private lateinit var idTrip: String
+        fun createInstance(trip: TripModel) {
+            idTrip = trip.tripId.toString()
+        }
     }
 
     override fun onCreateView(
@@ -36,7 +44,6 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
     }
 
     override fun showPackingList(packingList: MutableList<PackingModel>, isPacking: Boolean) {
-
         val myAdapter = activity?.let { PackingListAdapter(it, packingList, isPacking) }
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)

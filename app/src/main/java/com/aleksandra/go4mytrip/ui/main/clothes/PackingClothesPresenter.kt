@@ -10,7 +10,6 @@ class PackingClothesPresenter(val view: PackingClothesContract.View): PackingClo
     private lateinit var packingList: MutableList<PackingModel>
     private lateinit var uid: String
     private lateinit var referencePackingList: DatabaseReference
-    var isPacking = true
 
 
     fun declareData(){
