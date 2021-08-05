@@ -12,7 +12,7 @@ import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.trips.TripModel
 import com.aleksandra.go4mytrip.trips.TripsListener
 
-class TripAdapter(private val context: Context, private val mData: MutableList<TripModel>?, private val tripsListener: TripsListener) : RecyclerView.Adapter<TripAdapter.MyViewHolder>() {
+class TripAdapter(private val context: Context, private val mData: MutableList<TripModel>?, private val tripsListener: TripsListener, private val getActiveTripListener: GetActiveTripListener) : RecyclerView.Adapter<TripAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View
         val mInflater = LayoutInflater.from(context)
@@ -26,7 +26,10 @@ class TripAdapter(private val context: Context, private val mData: MutableList<T
             holder.imgTrip.setImageResource(mData[position].imageTrip)
             holder.dateStart.text = mData[position].tripDate
             holder.dateEnd.text = mData[position].tripDateEnd
+
             holder.imgTrip.setOnClickListener {
+                getActiveTripListener.onClicked(mData[position], position)
+
                 val id = mData[position].tripId
                 val title = mData[position].title
                 val image = mData[position].imageTrip
@@ -35,6 +38,7 @@ class TripAdapter(private val context: Context, private val mData: MutableList<T
                 val timeStart = mData[position].timeStart
                 val timeEnd = mData[position].timeEnd
                 val intent = Intent(context, DetailTrip::class.java)
+
                 intent.putExtra("idTripToDetail", id)
                 intent.putExtra("title", title)
                 intent.putExtra("image", image)
@@ -48,6 +52,7 @@ class TripAdapter(private val context: Context, private val mData: MutableList<T
                 tripsListener.onLongClicked(mData[position], position)
                 true
             }
+
         }
 
     }
