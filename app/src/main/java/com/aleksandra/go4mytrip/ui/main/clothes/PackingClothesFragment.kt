@@ -25,6 +25,7 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        packingListRepository = PackingListRepository()
         referencePackingList = packingListRepository.getDatabaseReferencePackingList()
         uid = packingListRepository.getUid()
     }
