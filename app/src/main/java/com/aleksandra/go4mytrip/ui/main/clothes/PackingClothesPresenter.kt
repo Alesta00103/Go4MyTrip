@@ -7,21 +7,10 @@ import java.util.ArrayList
 
 class PackingClothesPresenter(val view: PackingClothesContract.View): PackingClothesContract.Presenter {
 
-    private lateinit var packingList: MutableList<PackingModel>
-    private lateinit var uid: String
-    private lateinit var referencePackingList: DatabaseReference
+    private var packingList: MutableList<PackingModel> = ArrayList()
 
 
-    fun declareData(){
-            packingList = ArrayList()
-            referencePackingList = FirebaseDatabase.getInstance().getReference("packingList")
-            val user = FirebaseAuth.getInstance().currentUser
-            user?.let { uid = it.uid }
-    }
-
-
-    override fun fetchPackingList(idTrip: String) {
-        declareData()
+    override fun fetchPackingList(idTrip: String, referencePackingList: DatabaseReference, uid: String) {
         referencePackingList.child(uid).child("trips").child(idTrip).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 packingList.clear()

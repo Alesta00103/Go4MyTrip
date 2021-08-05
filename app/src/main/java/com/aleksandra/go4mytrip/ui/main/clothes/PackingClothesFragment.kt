@@ -7,19 +7,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aleksandra.go4mytrip.PackingListRepository
 import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.lists.PackingListAdapter
 import com.aleksandra.go4mytrip.lists.PackingModel
 import com.aleksandra.go4mytrip.trips.TripModel
+import com.google.firebase.database.DatabaseReference
 
 class PackingClothesFragment : Fragment(), PackingClothesContract.View {
 
     private lateinit var recyclerView: RecyclerView
-    val presenter by lazy { PackingClothesPresenter(this) }
+    private lateinit var referencePackingList: DatabaseReference
+    private lateinit var packingListRepository : PackingListRepository
+    private lateinit var uid: String
 
+    val presenter by lazy { PackingClothesPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        referencePackingList = packingListRepository.getDatabaseReferencePackingList()
+        uid = packingListRepository.getUid()
     }
 
     companion object {
@@ -40,7 +47,7 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
 
     override fun onStart() {
         super.onStart()
-        presenter.fetchPackingList(idTrip)
+        presenter.fetchPackingList(idTrip, referencePackingList, uid)
     }
 
     override fun showPackingList(packingList: MutableList<PackingModel>, isPacking: Boolean) {
