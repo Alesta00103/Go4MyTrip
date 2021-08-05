@@ -1,4 +1,4 @@
-package com.aleksandra.go4mytrip.ui.main.clothes
+package com.aleksandra.go4mytrip.ui.main.essentials
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,16 +12,21 @@ import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.lists.PackingListAdapter
 import com.aleksandra.go4mytrip.lists.PackingModel
 import com.aleksandra.go4mytrip.trips.TripModel
-import com.google.firebase.database.DatabaseReference
+import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesContract
+import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesFragment
+import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesPresenter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import java.util.*
 
-class PackingClothesFragment : Fragment(), PackingClothesContract.View {
+class PackingEssentialsFragment : Fragment(), PackingEssentialsContract.View {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var referencePackingList: DatabaseReference
     private lateinit var packingListRepository : PackingListRepository
     private lateinit var uid: String
 
-    val presenter by lazy { PackingClothesPresenter(this) }
+    val presenter by lazy { PackingEssentialsPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +45,7 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?): View? {
-
-        val root = inflater.inflate(R.layout.tab_packing_clothes, container, false)
+        val root = inflater.inflate(R.layout.tab_packing_essentials, container, false)
         recyclerView = root.findViewById(R.id.rv_packing_item)
         return root
     }
