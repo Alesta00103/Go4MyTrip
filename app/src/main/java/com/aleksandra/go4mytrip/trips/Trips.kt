@@ -25,6 +25,7 @@ import com.aleksandra.go4mytrip.notes.NoteModel
 import com.aleksandra.go4mytrip.trips.TripsListener
 import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesFragment
 import com.aleksandra.go4mytrip.ui.main.essentials.PackingEssentialsFragment
+import com.aleksandra.go4mytrip.ui.main.others.PackingOthersFragment
 import com.aleksandra.go4mytrip.ui.main.toiletries.PackingToiletriesFragment
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -386,6 +387,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         PackingClothesFragment.createInstance(tripModel)
         PackingEssentialsFragment.createInstance(tripModel)
         PackingToiletriesFragment.createInstance(tripModel)
+        PackingOthersFragment.createInstance(tripModel)
     }
 
 
