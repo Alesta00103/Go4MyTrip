@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.aleksandra.go4mytrip.R
+import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesFragment
+import com.aleksandra.go4mytrip.ui.main.essentials.PackingEssentialsFragment
+import com.aleksandra.go4mytrip.ui.main.toiletries.PackingToiletriesFragment
 
 class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
