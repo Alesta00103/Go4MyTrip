@@ -20,9 +20,10 @@ import com.aleksandra.go4mytrip.R
 import com.aleksandra.go4mytrip.costestimate.CostEstimateModel
 import com.aleksandra.go4mytrip.lists.PackingModel
 import com.aleksandra.go4mytrip.login.MainActivity
-import com.aleksandra.go4mytrip.login.User
+import com.aleksandra.go4mytrip.login.UserModel
 import com.aleksandra.go4mytrip.notes.NoteModel
 import com.aleksandra.go4mytrip.trips.TripsListener
+import com.aleksandra.go4mytrip.ui.main.clothes.PackingClothesFragment
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.GoogleApiClient
@@ -35,7 +36,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import kotlinx.android.synthetic.main.activity_trips.*
 import java.util.*
 
-class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListener {
+class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListener, GetActiveTripListener {
     private var image2: ImageView? = null
     private var email: String? = null
     private var uriPhoto: String? = null
@@ -111,7 +112,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
 
                             }
                         }
-                        val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
+                        val myAdapter = TripAdapter(this@Trips, tripList, this@Trips, this@Trips)
                         recyclerview_id.layoutManager = LinearLayoutManager(this@Trips)
                         recyclerview_id.setHasFixedSize(true)
                         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
@@ -237,7 +238,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         super.onStart()
         referenceUser.child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
+                val user = snapshot.getValue(UserModel::class.java)
                 user?.let {
                     email = it.email
                     userName = it.name
@@ -263,7 +264,7 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
                             noTripsText.visibility = View.GONE
                         }
                     }
-                    val myAdapter = TripAdapter(this@Trips, tripList, this@Trips)
+                    val myAdapter = TripAdapter(this@Trips, tripList, this@Trips, this@Trips)
                     recyclerview_id.layoutManager = LinearLayoutManager(this@Trips)
                     recyclerview_id.setHasFixedSize(true)
                     ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerview_id)
@@ -377,6 +378,10 @@ class Trips : AppCompatActivity(), PopupMenu.OnMenuItemClickListener, TripsListe
         const val REQUEST_CODE_UPDATE_TRIP = 2
         const val REQUEST_CODE_ADD_TRIP = 1
         const val DATA = "DATA"
+    }
+
+    override fun onClicked(tripModel: TripModel, position: Int) {
+        PackingClothesFragment.createInstance(tripModel)
     }
 
 

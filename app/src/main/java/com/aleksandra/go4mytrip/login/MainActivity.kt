@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                     val email = personEmail
                     val imageUri = photo
                     val id = databaseReference.push().key
-                    val user = User(id, name, email, imageUri)
+                    val user = UserModel(id, name, email, imageUri)
                     databaseReference.child(uid).setValue(user)
                     Toast.makeText(this@MainActivity, getString(R.string.userAdded), Toast.LENGTH_SHORT).show()
                 }
