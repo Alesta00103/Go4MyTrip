@@ -21,13 +21,13 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
     private lateinit var packingListRepository : PackingListRepository
     private lateinit var uid: String
 
-    val presenter by lazy { PackingClothesPresenter(this) }
+    private val presenter by lazy { PackingClothesPresenter(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         packingListRepository = PackingListRepository()
         referencePackingList = packingListRepository.getDatabaseReferencePackingList()
-        uid = packingListRepository.getUid()
+        uid = packingListRepository.getUserId()
     }
 
     companion object {
@@ -51,7 +51,7 @@ class PackingClothesFragment : Fragment(), PackingClothesContract.View {
         presenter.fetchPackingList(idTrip, referencePackingList, uid)
     }
 
-    override fun showPackingList(packingList: MutableList<PackingModel>, isPacking: Boolean) {
+    override fun showPackingList(packingList: List<PackingModel>, isPacking: Boolean) {
         val myAdapter = activity?.let { PackingListAdapter(it, packingList, isPacking) }
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)

@@ -12,7 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aleksandra.go4mytrip.R
 
-class PackingListAdapter(private val context: Context, private val mData: MutableList<PackingModel>, private var isPacking: Boolean) : RecyclerView.Adapter<PackingListAdapter.MyViewHolder>() {
+class PackingListAdapter(private val context: Context, private val mData: List<PackingModel>, private var isPacking: Boolean) : RecyclerView.Adapter<PackingListAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View
         return if (viewType == TYPE_PACK) {

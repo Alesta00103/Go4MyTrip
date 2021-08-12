@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference
 interface PackingClothesContract {
 
     interface View {
-        fun showPackingList(packingList: MutableList<PackingModel>, isPacking: Boolean)
+        fun showPackingList(packingList: List<PackingModel>, isPacking: Boolean)
         }
     interface Presenter {
        fun fetchPackingList(idTrip : String, referencePackingList: DatabaseReference, uid: String)

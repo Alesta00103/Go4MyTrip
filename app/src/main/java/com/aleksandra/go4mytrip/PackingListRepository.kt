@@ -12,7 +12,7 @@ open class PackingListRepository {
         return FirebaseDatabase.getInstance().getReference("packingList")
     }
 
-    fun getUid() : String{
+    fun getUserId() : String{
         val user = FirebaseAuth.getInstance().currentUser
         user?.let { uid = it.uid }
         return uid
